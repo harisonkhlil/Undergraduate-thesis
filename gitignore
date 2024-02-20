@@ -1,0 +1,14 @@
+main.pdf
+.texpadtmp
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.xdv
+data/*.aux
+
