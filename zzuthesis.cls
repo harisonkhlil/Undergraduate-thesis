@@ -83,6 +83,160 @@
     plainpages=false,
     hidelinks}
 \urlstyle{same}%相同字体
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 英文配置
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage{fontspec}
+\setmainfont{Times New Roman}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 中文配置
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xeCJK}
+% 实现汉字加点
+\usepackage{xeCJKfntef}
+\setCJKmainfont{SimSun} % 正文 宋体黑
+\setCJKsansfont{SimHei} % 标题 黑体
+\ctexset{%
+  contentsname={目\hspace{\ccwd} 录},
+  listfigurename={插图清单},
+  listtablename={表格清单},
+  figurename={图},
+  tablename={表},
+  appendixname={附录},
+  bibname={参考文献},
+  proofname={证明}
+}
+\newcommand\equation@name{公式}
+\newcommand\zzu@definition@name{定义}
+\newcommand\zzu@theorem@name{定理}
+\newcommand\zzu@lemma@name{引理}
+\newcommand\zzu@corollary@name{推论}
+\def\zzu@schoolname{河南中医药大学}
+\def\zzu@title@sep{：}
+\ifzzu@bachelor
+  \def\zzu@thesisno@title{论文编号}
+  \def\zzu@subtitle{毕业设计（论文）}
+  \def\zzu@bachelor@title@pre{论文题目}
+  \def\zzu@supervisor@title{指导教师}
+  \def\zzu@protitle@title{职称}
+  \def\zzu@author@title{姓名}
+  \def\zzu@stuno@title{学号}
+  \def\zzu@grade@title{年级}
+  \def\zzu@score@title{评定成绩}
+  \def\zzu@major@title{专业}
+  \def\zzu@department@title{院系}
+\else
+  \def\zzu@schoolcode@title{学校代码}
+  \def\zzu@id@title{学号或申请号}
+  \def\zzu@secretlevel@title{密级}
+  \ifzzu@master
+    \def\zzu@subtitle{硕士学位论文}
+  \else
+    \def\zzu@subtitle{博士学位论文}
+  \fi
+  \def\zzu@author@title{作者姓名}
+  \def\zzu@supervisor@title{导师姓名}
+  \def\zzu@subject@title{学科门类}
+  \def\zzu@major@title{专业名称}
+  \ifzzu@master
+    \def\zzu@department@title{培养院系}
+  \else\fi
+\fi
+\def\zzu@cdate@title{完成时间}
+\let\CJK@todaysave=\today
+\def\CJK@todaysmall@short{\the\year 年 \the\month 月}
+\def\CJK@todaysmall{\CJK@todaysmall@short \the\day 日}
+\def\CJK@todaybig@short{\CJKdigits{\the\year} 年 \CJKnumber{\the\month} 月}
+\def\CJK@todaybig{\CJK@todaybig@short \CJKnumber{\the\day} 日}
+\def\CJK@today{\CJK@todaysmall}
+\renewcommand\today{\CJK@today}
+\newcommand\CJKtoday[1][1]{%
+  \ifcase#1\def\CJK@today{\CJK@todaysave}
+    \or\def\CJK@today{\CJK@todaysmall}
+    \or\def\CJK@today{\CJK@todaybig}
+  \fi}
+\newcommand{\cabstractname}{摘要}
+\newcommand{\eabstractname}{ABSTRACT}
+\def\zzu@ckeywords@separator{；}
+\def\zzu@ekeywords@separator{; }
+\newcommand{\zzu@ckeywords@title}{关键词：}
+\newcommand{\zzu@ekeywords@title}{Key words:\enskip}
+\newcommand{\zzu@denotation@name}{主要符号对照表}
+\newcommand{\zzu@ackname}{致谢}
+\newcommand{\zzu@review@title}{综述}
+\ifzzu@bachelor
+  \newcommand{\zzu@resume@title}{在学期间参加课题的研究成果}
+\else
+  \newcommand{\zzu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
+\fi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  字号设置
+%%  模板使用thuthesis论文模板的字号定义
+%%  使用时可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\zzu@def@fontsize#1#2{
+  \expandafter\newcommand\csname #1\endcsname[1][1.3]{
+    \fontsize{#2}{##1\dimexpr #2}\selectfont}}
+\zzu@def@fontsize{chuhao}{42bp}
+\zzu@def@fontsize{xiaochu}{36bp}
+\zzu@def@fontsize{yihao}{26bp}
+\zzu@def@fontsize{xiaoyi}{24bp}
+\zzu@def@fontsize{erhao}{22bp}
+\zzu@def@fontsize{xiaoer}{18bp}
+\zzu@def@fontsize{sanhao}{16bp}
+\zzu@def@fontsize{xiaosan}{15bp}
+\zzu@def@fontsize{sihao}{14bp}
+\zzu@def@fontsize{banxiaosi}{13bp}
+\zzu@def@fontsize{xiaosi}{12bp}
+\zzu@def@fontsize{dawu}{11bp}
+\zzu@def@fontsize{wuhao}{10.5bp}
+\zzu@def@fontsize{xiaowu}{9bp}
+\zzu@def@fontsize{liuhao}{7.5bp}
+\zzu@def@fontsize{xiaoliu}{6.5bp}
+\zzu@def@fontsize{qihao}{5.5bp}
+\zzu@def@fontsize{bahao}{5bp}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 正文字体及行距
+%% 研究生：小四号 (12bp) 字，固定行距 20bp
+%% 本科生：小四号 (12bp) 字，1.25倍行距
+%% Word 小四号字 1.25 倍行距与固定行距 20bp 较接近
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\normalsize{
+  \@setfontsize\normalsize{12bp}{20bp}
+  \abovedisplayskip=12bp \@plus 2bp \@minus 2bp
+  \abovedisplayshortskip=12bp \@plus 2bp \@minus 2bp
+  \belowdisplayskip=\abovedisplayskip
+  \belowdisplayshortskip=\abovedisplayshortskip}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 页面设置
+%% 研究生：页边距上下3.8cm，左右3.2cm，页眉页脚3.0cm，装订线0cm
+%% 本科生：页边距上2.0cm，下2.2cm，左2.6cm，右2.0cm
+%% TODO: 根据Word设置结果微调，另本科生规范中页边距太小，未采用
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifzzu@bachelor
+  \geometry{left=2.6cm,right=2.0cm,top=2.0cm,bottom=2.2cm,includeheadfoot}
+\else
+  \geometry{left=3.2cm,right=3.2cm,top=3.8cm,bottom=3.8cm,includeheadfoot}
+\fi
+\geometry{
+  a4paper, % 210 * 297mm
+  hcentering,
+  vcentering,
+  ignoreall,
+  nomarginpar,
+  left=32mm,
+  top=38mm}
+\ctexset{
+  punct=quanjiao,
+  space=auto,
+  autoindent=true}
+\let\zzu@cleardoublepage\cleardoublepage
+\newcommand{\zzu@clearemptydoublepage}{%开始奇数新页面
+  \clearpage{\pagestyle{empty}\zzu@cleardoublepage}}
+\let\cleardoublepage\zzu@clearemptydoublepage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 文前，正文，文后格式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -134,162 +288,20 @@
   \fancyfoot[C]{\xiaowu 第 \thepage 页\hspace*{1\ccwd} 共 \pageref{LastPage} 页}
 }
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 中文配置
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ctexset{%
-  contentsname={目\hspace{\ccwd} 录},
-  listfigurename={插图清单},
-  listtablename={表格清单},
-  figurename={图},
-  tablename={表},
-  appendixname={附录},
-  bibname={参考文献},
-  proofname={证明}
-}
-\newcommand\equationname{公式}
-\newcommand\zzu@definition@name{定义}
-\newcommand\zzu@theorem@name{定理}
-\newcommand\zzu@lemma@name{引理}
-\newcommand\zzu@corollary@name{推论}
-\def\zzu@schoolname{郑州大学}
-\def\zzu@title@sep{：}
-\ifzzu@bachelor
-  \def\zzu@thesisno@title{论文编号}
-  \def\zzu@subtitle{毕业设计（论文）}
-  \def\zzu@bachelor@title@pre{论文题目}
-  \def\zzu@supervisor@title{指导教师}
-  \def\zzu@protitle@title{职称}
-  \def\zzu@author@title{姓名}
-  \def\zzu@stuno@title{学号}
-  \def\zzu@grade@title{年级}
-  \def\zzu@score@title{评定成绩}
-  \def\zzu@major@title{专业}
-  \def\zzu@department@title{院系}
-\else
-  \def\zzu@schoolcode@title{学校代码}
-  \def\zzu@id@title{学号或申请号}
-  \def\zzu@secretlevel@title{密级}
-  \ifzzu@master
-    \def\zzu@subtitle{硕士学位论文}
-  \else
-    \def\zzu@subtitle{博士学位论文}
-  \fi
-  \def\zzu@author@title{作者姓名}
-  \def\zzu@supervisor@title{导师姓名}
-  \def\zzu@subject@title{学科门类}
-  \def\zzu@major@title{专业名称}
-  \ifzzu@master
-    \def\zzu@department@title{培养院系}
-  \else\fi
-\fi
-\def\zzu@cdate@title{完成时间}
-\let\CJK@todaysave=\today
-\def\CJK@todaysmall@short{\the\year 年 \the\month 月}
-\def\CJK@todaysmall{\CJK@todaysmall@short \the\day 日}
-\def\CJK@todaybig@short{\CJKdigits{\the\year} 年 \CJKnumber{\the\month} 月}
-\def\CJK@todaybig{\CJK@todaybig@short \CJKnumber{\the\day} 日}
-\def\CJK@today{\CJK@todaysmall}
-\renewcommand\today{\CJK@today}
-\newcommand\CJKtoday[1][1]{%
-  \ifcase#1\def\CJK@today{\CJK@todaysave}
-    \or\def\CJK@today{\CJK@todaysmall}
-    \or\def\CJK@today{\CJK@todaybig}
-  \fi}
-\newcommand{\cabstractname}{摘\hspace{\ccwd} 要}
-\newcommand{\eabstractname}{Abstract}
-\def\zzu@ckeywords@separator{；}
-\def\zzu@ekeywords@separator{; }
-\newcommand{\zzu@ckeywords@title}{关键词：}
-\newcommand{\zzu@ekeywords@title}{Key words:\enskip}
-\newcommand{\zzu@denotation@name}{主要符号对照表}
-\newcommand{\zzu@ackname}{致\hspace{\ccwd} 谢}
-\newcommand{\zzu@review@title}{综述}
-\ifzzu@bachelor
-  \newcommand{\zzu@resume@title}{在学期间参加课题的研究成果}
-\else
-  \newcommand{\zzu@resume@title}{个人简历、在学期间发表的学术论文与研究成果}
-\fi
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%  字号设置
-%%  模板使用thuthesis论文模板的字号定义
-%%  使用时可加入行距参数，如\chuhao[1.25]表示初号字体，1.25倍行距
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\def\zzu@def@fontsize#1#2{%
-  \expandafter\newcommand\csname #1\endcsname[1][1.3]{%
-    \fontsize{#2}{##1\dimexpr #2}\selectfont}}
-\zzu@def@fontsize{chuhao}{42bp}
-\zzu@def@fontsize{xiaochu}{36bp}
-\zzu@def@fontsize{yihao}{26bp}
-\zzu@def@fontsize{xiaoyi}{24bp}
-\zzu@def@fontsize{erhao}{22bp}
-\zzu@def@fontsize{xiaoer}{18bp}
-\zzu@def@fontsize{sanhao}{16bp}
-\zzu@def@fontsize{xiaosan}{15bp}
-\zzu@def@fontsize{sihao}{14bp}
-\zzu@def@fontsize{banxiaosi}{13bp}
-\zzu@def@fontsize{xiaosi}{12bp}
-\zzu@def@fontsize{dawu}{11bp}
-\zzu@def@fontsize{wuhao}{10.5bp}
-\zzu@def@fontsize{xiaowu}{9bp}
-\zzu@def@fontsize{liuhao}{7.5bp}
-\zzu@def@fontsize{xiaoliu}{6.5bp}
-\zzu@def@fontsize{qihao}{5.5bp}
-\zzu@def@fontsize{bahao}{5bp}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 正文字体及行距
-%% 研究生：小四号 (12bp) 字，固定行距 20bp
-%% 本科生：小四号 (12bp) 字，1.25倍行距
-%% Word 小四号字 1.25 倍行距与固定行距 20bp 较接近
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\renewcommand\normalsize{%
-  \@setfontsize\normalsize{12bp}{20bp}%
-  \abovedisplayskip=12bp \@plus 2bp \@minus 2bp
-  \abovedisplayshortskip=12bp \@plus 2bp \@minus 2bp
-  \belowdisplayskip=\abovedisplayskip
-  \belowdisplayshortskip=\abovedisplayshortskip}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 页面设置
-%% 研究生：页边距上下3.8cm，左右3.2cm，页眉页脚3.0cm，装订线0cm
-%% 本科生：页边距上2.0cm，下2.2cm，左2.6cm，右2.0cm
-%% TODO: 根据Word设置结果微调，另本科生规范中页边距太小，未采用
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \ifzzu@bachelor
-  % \geometry{left=2.6cm,right=2.0cm,top=2.0cm,bottom=2.2cm,includeheadfoot}
-% \else
-  % \geometry{left=3.2cm,right=3.2cm,top=3.8cm,bottom=3.8cm,includeheadfoot}
-% \fi
-\geometry{
-  a4paper, % 210 * 297mm
-  hcentering,
-  vcentering,
-  ignoreall,
-  nomarginpar,
-  left=32mm,
-  top=38mm}
-\ctexset{%
-  punct=quanjiao,
-  space=auto,
-  autoindent=true}
-\let\zzu@cleardoublepage\cleardoublepage
-\newcommand{\zzu@clearemptydoublepage}{%开始奇数新页面
-  \clearpage{\pagestyle{empty}\zzu@cleardoublepage}}
-\let\cleardoublepage\zzu@clearemptydoublepage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 页眉页脚
 %% 页眉：居中显示章节名称；宋体10.5磅居中，Abstract用Roman字体
 %% 页脚：居中显示页码；宋体10.5磅居中
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 定义了一个名为“zzu@empty”的页面样式，其中页眉（head）和页脚（foot）都是空的。
-\def\ps@zzu@empty{%%No head or foot line.
+\def\ps@zzu@empty{ %%No head or foot line.
   \let\@oddhead\@empty\let\@evenhead\@empty%
   \let\@oddfoot\@empty\let\@evenfoot\@empty}
 
 % 定义了一个名为“zzu@plain”的页面样式，其页眉为空，页脚页码始终居中。
 \def\ps@zzu@plain{
-  \let\@oddhead\@empty\let\@evenhead\@empty%
-  \def\@oddfoot{\hfil\xiaowu\thepage\hfil}%
+  \let\@oddhead\@empty\let\@evenhead\@empty
+  \def\@oddfoot{\hfil\xiaowu\thepage\hfil}
   \let\@evenfoot=\@oddfoot}
 
 % 定义了一个名为“zzu@headings”的页面样式，其中页眉置于中心，页脚页码始终居中。
@@ -300,6 +312,7 @@
   \let\@evenhead=\@oddhead
   \def\@oddfoot{\xiaowu\hfil\thepage\hfil}
   \let\@evenfoot=\@oddfoot}
+
 % 重定义了“chaptermark”，章节标识包括章节编号和资源标识的输入。
 \renewcommand{\chaptermark}[1]{\@mkboth{\thechapter\  ~~#1}{}}
 
@@ -323,12 +336,12 @@
 %% 2. 定义tabularx环境中的Z选项，用于居中自动调整，定义命令\Xhline
 %% 3. 公式、图片、表格编号分隔符为句号，即“3.1”的形式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setlength{\floatsep}{12bp \@plus4\p@\@minus\p@}%浮动对象和文字间的距离
-\setlength{\intextsep}{12bp \@plus4\p@\@minus\tw@\p@}
+\setlength{\floatsep}{12bp \@plus4\p@\@minus\p@} %浮动对象和文字间的距离
+\setlength{\intextsep}{12bp \@plus4\p@\@minus\tw@\p@} % 浮动对象与正文文字上下间距
 \setlength{\textfloatsep}{12bp \@plus4\p@\@minus2\p@}
-\setlength{\@fptop}{0bp \@plus1.0fil}
-\setlength{\@fpsep}{12bp \@plus2.0fil}
-\setlength{\@fpbot}{0bp \@plus1.0fil}
+\setlength{\@fptop}{0bp \@plus1.0fil} % 页面顶部的浮动体与页面顶端的距离
+\setlength{\@fpsep}{12bp \@plus2.0fil} % 两个浮动体之间或者一个浮动体与文本之间的距离
+\setlength{\@fpbot}{0bp \@plus1.0fil} % 页面底部浮动体与页面底端的距离
 \renewcommand{\textfraction}{0.15}%页面文本的最小比例(0.2)
 \renewcommand{\topfraction}{0.85}%页顶浮动对象高/页高的最大值(0.7)
 \renewcommand{\bottomfraction}{0.50}%页底浮动对象高/页高的最大值(0.3)
@@ -343,6 +356,7 @@
   figureposition = bottom,
   tableposition  = top,
 }
+
 \ifzzu@bachelor%段前空6磅，段后空12磅
   \captionsetup[table]{belowskip={12bp-\intextsep},aboveskip=6bp}
 \else%段前空6磅，段后空6磅
@@ -399,9 +413,9 @@
   chapter={%一级标题：黑体16磅，段前24磅，段后18磅
     afterindent=true,
     pagestyle={fancy},
-    beforeskip={\ifzzu@bachelor 8bp\else 5bp\fi},
+    beforeskip={\ifzzu@bachelor 16bp\else 5bp\fi},
     aftername=\hskip\ccwd,
-    afterskip={\ifzzu@bachelor 20bp\else 24bp\fi},
+    afterskip={\ifzzu@bachelor 12bp\else 24bp\fi},
     format={\sffamily\sanhao[1]},
     name=\relax,
     nameformat=\relax,
@@ -411,14 +425,14 @@
   },
   section={%二级标题：黑体14磅，段前24磅，段后6磅
     afterindent=true,
-    beforeskip={\ifzzu@bachelor 25bp\else 24bp\fi\@plus .5ex \@minus .2ex},
-    afterskip={\ifzzu@bachelor 12bp\else 6bp\fi \@plus .2ex},
+    beforeskip={\ifzzu@bachelor 12bp\else 24bp\fi\@plus .5ex \@minus .2ex},
+    afterskip={\ifzzu@bachelor 8bp\else 6bp\fi \@plus .2ex},
     format={\sffamily\ifzzu@bachelor\sihao[1.286]\else\sihao[1.429]\fi},
   },
   subsection={%三级标题：段前12磅，段后6磅
     afterindent=true,
     indent={0pt}, % 不缩进
-    beforeskip={12bp \@plus .5ex \@minus .2ex},
+    beforeskip={8bp \@plus .5ex \@minus .2ex},
     afterskip={6bp \@plus .2ex},
     format={\sffamily\ifzzu@bachelor\xiaosi[1.25]%本科
             \else\banxiaosi[1.538]\fi},%硕博黑体13磅
@@ -426,13 +440,14 @@
   subsubsection={%四级标题：段前12磅，段后6磅
     afterindent=true,
     indent={0pt}, % 不缩进
-    beforeskip={12bp \@plus .5ex \@minus .2ex},
-    afterskip={6bp \@plus .2ex},
+    beforeskip={6bp \@plus .5ex \@minus .2ex},
+    afterskip={4bp \@plus .2ex},
     format={\ifzzu@bachelor\xiaosi[1.25]%本科
             \else\sffamily\xiaosi[1.667]\fi},%硕博
   },
   paragraph/afterindent=true,
   subparagraph/afterindent=true}
+
 \newcounter{zzu@bookmark}
 \def\zzu@chapter*{%\zzu@chapter*[tocline]{title}[header]
   %% \@ifnextchar peeks at the following character and compares it with its first argument. 
@@ -477,9 +492,9 @@
 \setcounter{tocdepth}{2}%目录深度：2
 
 \renewcommand\tableofcontents{%
-  \zzu@chapter*[]{\contentsname}
+  \zzu@chapter*[]{\contentsname} % 禁止将目录加进目录
   \@starttoc{toc}\normalsize}
-\renewcommand\listoffigures{%本科无图和附表清单
+\renewcommand\listoffigures{ %本科无图和附表清单
   \ifzzu@bachelor\relax\else
   \zzu@chapter*[]{\listfigurename}
   \@starttoc{lof}\fi}
@@ -488,7 +503,15 @@
   \zzu@chapter*[]{\listtablename}
   \@starttoc{lot}\fi}
 
-
+\titlecontents{cabstracttoc}[\z@]{\vspace{6bp}\xiaosi[1]}
+  {{\thecontentslabel}\quad}{}
+  {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
+  [\addvspace{3bp}] % 下间距
+\titlecontents{eabstracttoc}[\z@]
+  {\addvspace{6bp}\xiaosi[1]} % 上间距
+  {{\thecontentslabel}\quad}{}
+  {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
+  [\addvspace{16bp}] % 下间距
 \titlecontents{chapter}[\z@]{\vspace{6bp}\xiaosi[1]}
   {{\thecontentslabel}\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
@@ -504,7 +527,13 @@
 \titlecontents{table}[\z@]{\xiaosi[1.524]}%10.5bp，16bp
   {\makebox[3.5em][l]{\tablename~\thecontentslabel\quad}}{}
   {\hspace{.5em}\titlerule*{.}\contentspage}
-
+\titlecontents{acktoc}[\z@]{\vspace{16bp}\xiaosi[1]}
+  {{\thecontentslabel}\quad}{}
+  {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
+\titlecontents{bibtoc}[\z@]{\vspace{16bp}\xiaosi[1]}
+  {{\thecontentslabel}\quad}{}
+  {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
+  [\addvspace{16bp}] % 下间距
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 封面
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -581,69 +610,52 @@
         \vspace*{\stretch{1}}
         
             % 设置论文题目
-            % 创建一个宽度为10cm的文本盒子，在这个盒子内的内容会自动进行折行处理。"[t]"表示盒子内容的顶部和当前位置对齐。
-           \hspace*{0cm}\songti\sihao\zzu@bachelor@title@pre\zzu@title@sep
-     \parbox[t]{8.5cm}{%
-     % 将盒子0的内容设置为字符串"\heiti\sihao[1.55]\zzu@ctitle"。即将ctitle的内容设为黑体字，音译一号字(1.55倍普通字体大小)。
-     	\setbox0=\hbox{{\heiti\sihao[1.55]\zzu@ctitle}}
-     	% 开始一个picture环境，用于自定义绘图。该环境的四个参数(0,0)(0,0)表示画布的大小和位置，这里设置为(0,0)，不对画布大小做限制。
-     	\begin{picture}(0,0)(0,0)
-     	% 设置单位长度为1厘米。
-     		\setlength\unitlength{1cm}
-     		% 设置线条的粗细为0.5pt（p@表示点，TeX的长度单位之一）。
-     		\linethickness{.5\p@}
-     		% 在坐标(0,-0.25)处绘制一个由点出发，长度为10个单位长度（已经设置为1cm）的线段。线段的方向由坐标(1,0)决定，表示朝x轴正方向。
-     		\put(0,-0.25){\line(1,0){8.5}}
-     		\ifdim\wd0>8.5cm
-     		% 如果盒子0（用于存储ctitle）的宽度大于10cm，则在坐标(0,-1.12)处绘制第二条线段，与第一条线段平行且位置相对较低。
-     		\put(0,-1.12){\line(1,0){8.5}}
-     		\fi
-     	\end{picture}%
-     	% 输出盒子0的内容，并且在ctitle和后面的内容之间忽略任何空格。结束当前段落。
-     	\ignorespaces\sihao[1.55]\zzu@ctitle\par
-     	
- %    	\setbox0=\hbox{{\sihao[1.55]\zzu@etitle}}
- %    	\begin{picture}(0,0)(0,0)
- %    		\setlength\unitlength{1cm}
- %    		\linethickness{.5\p@}
- %    		\put(0,-0.25){\line(1,0){10}}
- %    		\ifdim\wd0>10cm
- %    		\put(0,-1.12){\line(1,0){10}}
- %    		\fi
- %    	\end{picture}%
-     	
-     	% 以1.55倍的音译一号字体打印英文标题，并不计入任何前面的空格。结束当前段落。
- %    	\ignorespaces\sihao[1.55]\zzu@etitle\par
-     % 垂直方向留出0.5cm的空白。
-     	\vskip.5cm
-     	% 将"\zzu@title@width"的长度设置为2.8cm，这可能会影响后续的文本布局。
-     	%\setlength{\zzu@title@width}{2.8cm}
-     }\par % 结束 par 环境
+            % 创建一个宽度为8.5cm的文本盒子，在这个盒子内的内容会自动进行折行处理。"[t]"表示盒子内容的顶部和当前位置对齐。
+ \songti\sihao\zzu@bachelor@title@pre\zzu@title@sep\parbox[t]{8.5cm}{
+% 将盒子0的内容设置为字符串"\heiti\sihao[1.55]\zzu@ctitle"。即将ctitle的内容设为黑体字，音译一号字(1.55倍普通字体大小)。
+	\setbox0=\hbox{{\heiti\sihao[1.55]\zzu@ctitle}}
+	% 开始一个picture环境，用于自定义绘图。该环境的四个参数(0,0)(0,0)表示画布的大小和位置，这里设置为(0,0)，不对画布大小做限制。
+	\begin{picture}(0,0)(0,0)
+	% 设置单位长度为1厘米。
+		\setlength\unitlength{1cm}
+		% 设置线条的粗细为0.5pt（p@表示点，TeX的长度单位之一）。
+		\linethickness{.5\p@}
+		% 在坐标(0,-0.25)处绘制一个由点出发，长度为10个单位长度（已经设置为1cm）的线段。线段的方向由坐标(1,0)决定，表示朝x轴正方向。
+		\put(0,-0.25){\line(1,0){8.5}}
+		\ifdim\wd0>8.5cm
+		% 如果盒子0（用于存储ctitle）的宽度大于10cm，则在坐标(0,-1.12)处绘制第二条线段，与第一条线段平行且位置相对较低。
+		\put(0,-1.12){\line(1,0){8.5}}
+		\fi
+	\end{picture}%
+	% 输出盒子0的内容，并且在ctitle和后面的内容之间忽略任何空格。结束当前段落。
+	\ignorespaces\sihao[1.55]\zzu@ctitle\par
+	\vskip.5cm
+}\par % 结束 par 环境
  
-        \parbox[t][4.0cm][t]{22em}{{\sihao[1.8]\rmfamily
-        		\setlength{\zzu@title@width}{4\ccwd}
-        		
-        		\zzu@put@title{\zzu@author@title}\zzu@title@sep
-        		\zzu@underline[17em]{\zzu@cauthor}\par
-        		
-        		\zzu@put@title{\zzu@department@title}\zzu@title@sep
-        		\zzu@underline[17em]{\zzu@cdepartment}\par
-        		
-        		\zzu@put@title{\zzu@major@title}\zzu@title@sep
-        		\zzu@underline[17em]{\zzu@cmajor}\par
-        		
-        		\zzu@put@title{\zzu@grade@title}\zzu@title@sep
-        		\zzu@underline[17em]{\zzu@grade}\par
-        		
-        		\zzu@put@title{\zzu@stuno@title}\zzu@title@sep
-        		\zzu@underline[17em]{\zzu@stuno}\par
-        		
-        		\zzu@put@title{\zzu@supervisor@title}\zzu@title@sep
-        		\zzu@underline[17em]{\zzu@csupervisor}\par
-        		
-        		\zzu@put@title{\zzu@score@title}\zzu@title@sep
-        		\zzu@underline[17em]{\zzu@score}\par}}
-        		
+\parbox[t][4.0cm][t]{22em}{{\sihao[1.8]\rmfamily
+		\setlength{\zzu@title@width}{4\ccwd}
+		
+		\zzu@put@title{\zzu@author@title}\zzu@title@sep
+		\zzu@underline[17em]{\zzu@cauthor}\par
+		
+		\zzu@put@title{\zzu@department@title}\zzu@title@sep
+		\zzu@underline[17em]{\zzu@cdepartment}\par
+		
+		\zzu@put@title{\zzu@major@title}\zzu@title@sep
+		\zzu@underline[17em]{\zzu@cmajor}\par
+		
+		\zzu@put@title{\zzu@grade@title}\zzu@title@sep
+		\zzu@underline[17em]{\zzu@grade}\par
+		
+		\zzu@put@title{\zzu@stuno@title}\zzu@title@sep
+		\zzu@underline[17em]{\zzu@stuno}\par
+		
+		\zzu@put@title{\zzu@supervisor@title}\zzu@title@sep
+		\zzu@underline[17em]{\zzu@csupervisor}\par
+		
+		\zzu@put@title{\zzu@score@title}\zzu@title@sep
+		\zzu@underline[17em]{\zzu@score}\par}}
+		
        % 底部日期居中		
     \vspace*{\stretch{1}}
     \begin{center}
@@ -670,6 +682,7 @@
     \end{center}
     \xiaosi[2]\zzu@authorization
     \vskip 20pt
+    % 其实就是放在一个表格中
     \begin{tabular}{lll}
         \songti\zzu@authorsig & \zzu@signline{} & \zzu@declaredate\\
         \songti\zzu@teachersig & \zzu@signline{} & \zzu@declaredate
@@ -677,8 +690,8 @@
     \vspace*{\stretch{2}}
     
     
-    
-    \else%研究生学位论文
+    %研究生学位论文
+    \else
       \noindent\begin{minipage}{.49\textwidth}
         \begin{flushleft}
           \includegraphics[width=3.35cm]{zzulogo}
@@ -782,16 +795,20 @@
 \newcommand{\zzu@teachersig}{指导教师已阅}
 \newcommand{\zzu@signline}[1]{\underline{\makebox[3cm][l]{#1}}（已阅）}
 
-\usepackage{xeCJKfntef}
 \usepackage{ragged2e}
 % 毕业设计（论文）诚信声明书
-\newcommand{\zzu@declaretext}{\justifying{\hspace{2\ccwd}本人声明：我将提交的毕业论文（设计）《\CJKunderline{\zzu@ctitle}》，是我在指导教师指导下独立研究、写作的成果，论文中所引用他人的无论以何种方式发布的文字、研究成果，均在论文中加以说明；有关教师、同学和其他人员对本文的写作、修订提出过并为我在论文中加以采纳的意见、建议，均已在我的致谢辞中加以说明并深致谢意。}}
+\newcommand{\zzu@declaretext}{\justifying{\hspace{2\ccwd}本人声明：
+我将提交的毕业论文（设计）《\CJKunderline{\zzu@ctitle}》，是我在指导教师指导下独立研究、写作的成果，
+论文中所引用他人的无论以何种方式发布的文字、研究成果，均在论文中加以说明；
+有关教师、同学和其他人员对本文的写作、修订提出过并为我在论文中加以采纳的意见、建议，均已在我的致谢辞中加以说明并深致谢意。}}
 
 \newcommand{\zzu@declaredate}{时间：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
 
 % 毕业设计（论文）版权使用授权书
-\newcommand{\zzu@authorization}{\hspace{2\ccwd}
-本毕业论文《\CJKunderline{\zzu@ctitle}》是本人在校期间所完成学业的组成部分，是在河南中医药大学教师的指导下完成的，因此，本人特授权对河南中医药大学可将本毕业论文的全部或部分内容编入有关书籍、数据库保存，可采用复制、印刷、网页制作等方式将论文文本和经过编辑、批注等处理的论文文本提供给读者查阅、参考，可向有关学术部门和国家有关教育主管部门呈送复印件和电子文档。本毕业论文无论做何种处理，必须尊重本人的著作权，署明本人姓名。}
+\newcommand{\zzu@authorization}{\hspace{2\ccwd}本毕业论文《\CJKunderline{\zzu@ctitle}》是本人在校期间所完成学业的组成部分，
+是在河南中医药大学教师的指导下完成的，因此，本人特授权对河南中医药大学可将本毕业论文的全部或部分内容编入有关书籍、
+数据库保存，可采用复制、印刷、网页制作等方式将论文文本和经过编辑、批注等处理的论文文本提供给读者查阅、参考，
+可向有关学术部门和国家有关教育主管部门呈送复印件和电子文档。本毕业论文无论做何种处理，必须尊重本人的著作权，署明本人姓名。}
 
 \newcommand{\zzu@authdate}{时间：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
 
@@ -846,7 +863,7 @@
     \fi%
   \end{titlepage}
   \normalsize
-  \zzu@makeabstract
+  % \zzu@makeabstract
   \let\@tabular\zzu@tabular
 }
 
@@ -888,10 +905,19 @@
 
 \newcommand{\zzu@makeabstract}{%
   \ifzzu@doctor\cleardoublepage\else\clearpage\fi
-
   \phantomsection
-  \addcontentsline{toc}{chapter}{\cabstractname} % 添加中文摘要到目录
-  \zzu@chapter*[]{\cabstractname} % no tocline
+  \addcontentsline{toc}{cabstracttoc}{\cabstractname} % 添加中文摘要到目录
+  \begin{center}
+    % 添加论文标题
+    \sffamily \xiaoer{\zzu@ctitle}
+    \vskip12bp
+  % 添加论文作者
+    \sffamily \xiaosan{\zzu@cauthor}
+    \vskip16bp
+    \sffamily \xiaosan{\cabstractname}
+    \vskip 14bp
+  \end{center}
+  % \zzu@chapter*[]{\cabstractname} % no tocline
   \pagestyle{zzu@headings}
   \pagenumbering{Roman}
   \zzu@cabstract
@@ -899,8 +925,18 @@
   \zzu@put@keywords{\textbf\zzu@ckeywords@title}{\zzu@ckeywords}
   \newpage % 在这里加入新的页面分隔
   \phantomsection
-  \addcontentsline{toc}{chapter}{\eabstractname} % 添加英文摘要到目录
-  \zzu@chapter*[]{\eabstractname} % no tocline
+  \addcontentsline{toc}{eabstracttoc}{\eabstractname} % 添加英文摘要到目录
+  \begin{center}
+    % 添加论文标题
+    \sffamily \xiaoer{\zzu@etitle}
+    \vskip12bp
+  % 添加论文作者
+    \sffamily \xiaosan{\zzu@eauthor}
+    \vskip16bp
+    \sffamily \xiaosan{\eabstractname}
+    \vskip 14bp
+  \end{center}
+  % \zzu@chapter*[]{\eabstractname} % no tocline
   \zzu@eabstract
   \vskip12bp
   \zzu@put@keywords{%
@@ -930,7 +966,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{ack}{%
     \ifzzu@doctor\cleardoublepage\else\clearpage\fi
-    \zzu@chapter*{\zzu@ackname}
+    \zzu@chapter*[]{\zzu@ackname}
+    \addcontentsline{toc}{acktoc}{\zzu@ackname} % 添加中文摘要到目录
     \songti\xiaosi[1.524]%仿宋五号，固定行距16磅
   }{
   \begin{center}
@@ -967,7 +1004,8 @@
 \DeclareRobustCommand\onlinecite{\@onlinecite}
 \def\@onlinecite#1{\begingroup\let\@cite\NAT@citenum\citep{#1}\endgroup}
 \renewenvironment{thebibliography}[1]{%
-   \zzu@chapter*{\bibname}%
+   \zzu@chapter*[]{\bibname}%
+   \addcontentsline{toc}{bibtoc}{\bibname} % 添加中文摘要到目录
    \wuhao[1.524]%宋体五号，行距16磅
    \list{\@biblabel{\@arabic\c@enumiv}}%
         {\renewcommand{\makelabel}[1]{##1\hfill}
@@ -989,7 +1027,7 @@
      {\@latex@warning{Empty `thebibliography' environment}}%
     \endlist\frenchspacing}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% 附录
+%% 附录 以后再改
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \let\zzu@appendix\appendix
 \renewenvironment{appendix}{%
