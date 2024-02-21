@@ -228,6 +228,7 @@
   ignoreall,
   nomarginpar,
   left=32mm,
+  footskip=20mm,
   top=38mm}
 \ctexset{
   punct=quanjiao,
