@@ -89,6 +89,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{fontspec}
 \setmainfont{Times New Roman}
+\setmonofont{Times New Roman}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 中文配置
@@ -812,31 +813,6 @@
 
 \newcommand{\zzu@authdate}{时间：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
 
-%原创性声明及授权声明
-%\newcommand{\zzu@authorization@mk}{
-%  \thispagestyle{zzu@empty}
-%% 上部分
-%  \vspace*{\stretch{1}}
-%  \begin{center}
-%    \sffamily\sanhao \zzu@declarename
-%  \end{center}
-%  \vskip 20pt
-%  \xiaosi[2]\zzu@declaretext
-%  \vskip 20pt
-%  \zzu@authorsig\hfill\zzu@declaredate\hspace*{2\ccwd}
-%  \par\noindent\zzu@teachersig\hfill\zzu@declaredate\hspace*{2\ccwd}
-%% 下部分
-%  \vspace*{\stretch{2}}
-%  \begin{center}
-%    \sffamily\sanhao \zzu@authtitle
-%  \end{center}
-%  \vskip 20pt
-%  \xiaosi[2]\zzu@authorization
-%  \vskip 20pt
-%  \zzu@authorsig\hfill\zzu@authdate\hspace*{2\ccwd}
-%  \vspace*{\stretch{2}}}
-  
-  
 
 \def\zzu@setup@pdfinfo{%pdf文档信息
   \hypersetup{%
@@ -1002,7 +978,10 @@
   \unskip\kern\p@\textsuperscript{\NAT@@open #1\NAT@@close}%
   \if*#3*\else\ (#3)\fi\else #1\fi\endgroup}
 \DeclareRobustCommand\onlinecite{\@onlinecite}
-\def\@onlinecite#1{\begingroup\let\@cite\NAT@citenum\citep{#1}\endgroup}
+\def\@onlinecite#1{
+\begingroup\let\@cite\NAT@citenum\citep{#1}
+\endgroup
+}
 \renewenvironment{thebibliography}[1]{%
    \zzu@chapter*[]{\bibname}%
    \addcontentsline{toc}{bibtoc}{\bibname} % 添加中文摘要到目录
