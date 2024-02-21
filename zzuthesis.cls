@@ -263,6 +263,8 @@
 % 在前言部分使用这个样式
 \renewcommand\frontmatter{%
   \ifzzu@doctor\cleardoublepage\else\clearpage\fi
+  % 修复目录标题
+  \ctexset{chapter/format+=\centering}
   \@mainmatterfalse
   \pagenumbering{Roman}
   \pagestyle{frontmatterstyle} % 在前言部分使用新的样式
@@ -493,6 +495,7 @@
 \setcounter{tocdepth}{2}%目录深度：2
 
 \renewcommand\tableofcontents{%
+  \pagestyle{frontmatterstyle}
   \zzu@chapter*[]{\contentsname} % 禁止将目录加进目录
   \@starttoc{toc}\normalsize}
 \renewcommand\listoffigures{ %本科无图和附表清单
