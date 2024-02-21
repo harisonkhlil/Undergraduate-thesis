@@ -216,11 +216,11 @@
 %% 本科生：页边距上2.0cm，下2.2cm，左2.6cm，右2.0cm
 %% TODO: 根据Word设置结果微调，另本科生规范中页边距太小，未采用
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifzzu@bachelor
-  \geometry{left=2.6cm,right=2.0cm,top=2.0cm,bottom=2.2cm,includeheadfoot}
-\else
-  \geometry{left=3.2cm,right=3.2cm,top=3.8cm,bottom=3.8cm,includeheadfoot}
-\fi
+% \ifzzu@bachelor
+%   \geometry{left=2.6cm,right=2.0cm,top=2.0cm,bottom=2.2cm,includeheadfoot}
+% \else
+%   \geometry{left=3.2cm,right=3.2cm,top=3.8cm,bottom=3.8cm,includeheadfoot}
+% \fi
 \geometry{
   a4paper, % 210 * 297mm
   hcentering,
@@ -263,7 +263,6 @@
 % 在前言部分使用这个样式
 \renewcommand\frontmatter{%
   \ifzzu@doctor\cleardoublepage\else\clearpage\fi
-  \ctexset{chapter/format+=\centering}
   \@mainmatterfalse
   \pagenumbering{Roman}
   \pagestyle{frontmatterstyle} % 在前言部分使用新的样式
@@ -277,6 +276,7 @@
   \pagenumbering{arabic}
   \pagestyle{mainmatterstyle}
 }
+
 
 % 在后记部分
 \renewcommand\backmatter{%
@@ -881,6 +881,7 @@
 
 \newcommand{\zzu@makeabstract}{%
   \ifzzu@doctor\cleardoublepage\else\clearpage\fi
+  \pagestyle{frontmatterstyle}
   \phantomsection
   \addcontentsline{toc}{cabstracttoc}{\cabstractname} % 添加中文摘要到目录
   \begin{center}
@@ -894,7 +895,7 @@
     \vskip 14bp
   \end{center}
   % \zzu@chapter*[]{\cabstractname} % no tocline
-  \pagestyle{zzu@headings}
+  \pagestyle{frontmatterstyle}
   \pagenumbering{Roman}
   \zzu@cabstract
   \vskip12bp

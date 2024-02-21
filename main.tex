@@ -17,27 +17,22 @@
 \graphicspath{{figures/}}
 
 \begin{document}
-
 \frontmatter
-
 \input{data/cover}%封面
 \input{data/abstract}%摘要
 \makecover
 \tableofcontents
-%目录
 \makeatletter
 \zzu@makeabstract
 \makeatother
-\pagestyle{frontmatterstyle}
-
 
 % 本科不需要插图清单
 % \listoffigures%插图清单，本科论文重新定义为\relax
 % \listoftables%表格清单，本科论文重新定义为\relax
 
-\makeatletter%符号对照表
-  \ifzzu@bachelor\else\include{data/denotation}\fi%本科论文不要求
-\makeatother
+% \makeatletter%符号对照表
+%   \ifzzu@bachelor\else\include{data/denotation}\fi%本科论文不要求
+% \makeatother
 
 % 正文部分
 \mainmatter
