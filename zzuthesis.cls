@@ -509,19 +509,22 @@
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
   [\addvspace{3bp}] % 下间距
 \titlecontents{eabstracttoc}[\z@]
-  {\addvspace{6bp}\xiaosi[1]} % 上间距
+  {\addvspace{4bp}\xiaosi[1]} % 上间距
   {{\thecontentslabel}\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
   [\addvspace{16bp}] % 下间距
 \titlecontents{chapter}[\z@]{\vspace{6bp}\xiaosi[1]}
   {{\thecontentslabel}\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
+  [\addvspace{3bp}] % 下间距
 \titlecontents{section}[2\ccwd]{\vspace{6bp} \xiaosi[1]}
   {\thecontentslabel\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
+  [\addvspace{3bp}] % 下间距
 \titlecontents{subsection}[4\ccwd]{\vspace{6bp} \xiaosi[1]}
   {\thecontentslabel\quad}{}
   {\hspace{.5em}\titlerule*{.}\xiaosi\contentspage}
+  [\addvspace{3bp}] % 下间距
 \titlecontents{figure}[\z@]{\xiaosi[1.524]}%10.5bp，16bp
   {\makebox[3.5em][l]{\figurename~\thecontentslabel\quad}}{}
   {\hspace{.5em}\titlerule*{.}\contentspage}
