@@ -97,8 +97,8 @@
 \usepackage{xeCJK}
 % 实现汉字加点
 \usepackage{xeCJKfntef}
-\setCJKmainfont{SimSun} % 正文 宋体黑
-\setCJKsansfont{SimHei} % 标题 黑体
+\setCJKmainfont[Path=assert/, Extension=.ttf]{SimSun} % 正文 宋体黑
+\setCJKsansfont[Path=assert/, Extension=.ttf]{SimHei} % 标题 黑体
 \ctexset{%
   contentsname={目\hspace{\ccwd} 录},
   listfigurename={插图清单},
