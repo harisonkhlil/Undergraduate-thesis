@@ -8,6 +8,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 标识节(Identification)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 禁止 CJK 警告
+\PassOptionsToPackage{quiet}{fontspec}
+\PassOptionsToPackage{quiet}{xeCJK}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{zzuthesis}
 [2020/01/03 5.0.1 Zhengzhou University Thesis Template]
