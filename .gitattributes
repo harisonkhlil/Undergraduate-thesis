@@ -1,0 +1,2 @@
+assert/SimHei.ttf filter=lfs diff=lfs merge=lfs -text
+assert/SimSun.ttf filter=lfs diff=lfs merge=lfs -text
