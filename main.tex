@@ -12,6 +12,42 @@
 %   ]{zzuthesis}
 % 自定义宏包
 \usepackage{docutils}
+% 表格优化支持
+\usepackage{tabularray}
+\usepackage{chemmacros}
+\UseTblrLibrary{varwidth}
+
+% code style setting
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{guppiegreen}{rgb}{0.0, 1.0, 0.5}
+\definecolor{eggshell}{rgb}{0.94, 0.92, 0.84}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{eggshell},
+    commentstyle=\color{guppiegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
 
 % 图形文件路径
 \graphicspath{{figures/}}
@@ -40,6 +76,8 @@
 \include{data/chap02}
 \include{data/chap03}
 \include{data/chap04}
+\include{data/chap05}
+\include{data/chap06}
 
 % 参考文献、致谢、附录等
 \backmatter
@@ -69,8 +107,6 @@
 \ifzzu@bachelor
   \begin{appendix}
     \input{data/app01}
-    \input{data/app02}
-    \input{data/app03}
   \end{appendix}
 \fi
 \makeatother
