@@ -9,6 +9,7 @@
 1. Overleaf 在线编辑，注意⚠️不要在官方模板上编写，请自行 copy 到自己的项目内，在自己的项目内进行修改
 2. Visual Studio Code，使用扩展商店的 Latex Workshop，配置编译链和代码补全
 3. 使用 (neo)vim 的插件 vimtex + Texlab（lsp）配置自动化和代码补全
+4. 使用专业 LaTeX 软件例如：`Texifier`
 
 ### VSCode
 
@@ -27,6 +28,11 @@ VSCode 是一个微软出品的编辑器，具有非常强大的编辑功能，�
 详细的快捷键教程：[LazyVim Start](https://www.lazyvim.org/)
 
 详细的 `vimtex` 使用说明：[vimtex manual](https://www.ejmastnak.com/tutorials/vim-latex/vimtex/)
+
+### Texifier
+
+一个专业的 LaTeX 编写软件，不用配置，点击安装编译自动化，帮你做了除了学术之外的任何事情。详情请查看官网：
+[Research is hard, writing should be easy](https://www.texifier.com/)
 
 ## 致谢
 

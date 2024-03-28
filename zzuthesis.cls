@@ -93,7 +93,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{fontspec}
 \setmainfont{Times New Roman}
-\setmonofont{Times New Roman}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 中文配置
@@ -811,14 +810,14 @@
 \usepackage{ragged2e}
 % 毕业设计（论文）诚信声明书
 \newcommand{\zzu@declaretext}{\justifying{\hspace{2\ccwd}本人声明：
-我将提交的毕业论文（设计）《\CJKunderline{\zzu@ctitle}》，是我在指导教师指导下独立研究、写作的成果，
+我将提交的毕业论文（设计）《\uline{\hspace{12em}}》，是我在指导教师指导下独立研究、写作的成果，
 论文中所引用他人的无论以何种方式发布的文字、研究成果，均在论文中加以说明；
 有关教师、同学和其他人员对本文的写作、修订提出过并为我在论文中加以采纳的意见、建议，均已在我的致谢辞中加以说明并深致谢意。}}
 
 \newcommand{\zzu@declaredate}{时间：\hspace{4\ccwd} 年\hspace{2\ccwd} 月\hspace{2\ccwd} 日}
 
 % 毕业设计（论文）版权使用授权书
-\newcommand{\zzu@authorization}{\hspace{2\ccwd}本毕业论文《\CJKunderline{\zzu@ctitle}》是本人在校期间所完成学业的组成部分，
+\newcommand{\zzu@authorization}{\hspace{2\ccwd}本毕业论文《\uline{\hspace{12em}}》是本人在校期间所完成学业的组成部分，
 是在河南中医药大学教师的指导下完成的，因此，本人特授权对河南中医药大学可将本毕业论文的全部或部分内容编入有关书籍、
 数据库保存，可采用复制、印刷、网页制作等方式将论文文本和经过编辑、批注等处理的论文文本提供给读者查阅、参考，
 可向有关学术部门和国家有关教育主管部门呈送复印件和电子文档。本毕业论文无论做何种处理，必须尊重本人的著作权，署明本人姓名。}
