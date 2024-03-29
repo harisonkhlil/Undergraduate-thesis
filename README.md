@@ -34,6 +34,12 @@ VSCode 是一个微软出品的编辑器，具有非常强大的编辑功能，�
 一个专业的 LaTeX 编写软件，不用配置，点击安装编译自动化，帮你做了除了学术之外的任何事情。详情请查看官网：
 [Research is hard, writing should be easy](https://www.texifier.com/)
 
+## 工具推荐
+
+编写LaTeX最烦人的问题可能就是制作表格了，所以推荐这个[表格制作网站](https://www.latex-tables.com/)，可以选择好的表格 package：Tabularray
+
+模板上的教程可能已经偏古老了，所以最新的 LaTeX 教程还是推荐使用 overleaf 的[官方教程](https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes)
+
 ## 致谢
 
 谢谢你的支持，祝你学术愉快
