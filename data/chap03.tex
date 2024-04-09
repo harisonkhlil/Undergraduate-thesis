@@ -83,7 +83,7 @@ key\_*.csv类型的文件提供用于预测的页名称和缩短的ID列之间�
   \caption{泰勒·斯威夫特日访问量变化}
 \end{figure}
 
-为了能够正常模型的准确地，使用了重要指标 SMAPE（对称平均绝对百分比误差）一种常用于预测精度评估的指标，可以比较不同规模时间序列的误差。计算公式如下。
+为了能够知道模型的准确地，使用了重要指标 SMAPE（对称平均绝对百分比误差）一种常用于预测精度评估的指标，可以比较不同规模时间序列的误差。计算公式如下。
 
 \begin{equation}
   SMAPE={\frac{100}{n}}\sum_{t=1}^{n}{\frac{|F_{t}-A_{t}|}{(|A_{t}|+|F_{t}|)/2}}
@@ -100,9 +100,10 @@ SMAPE可以变得非常有问题。这是因为当实际值 ( A\_t ) 或预测�
   \centering
   \includegraphics[width=0.8\textwidth]{figures/sampe_external.png}
   \caption{SAMPE 指标极端测试}
+  \label{sampe-property}
 \end{figure}
 
-在这个图片中，垂直的线代表了真实值$1 , 2, 3$ 通过不同真实值的表现体现了 SAMPE 的动态分数。当实际值和预测值的差接近于零是，SMAPE 的分数会接近于无穷，所以要避免这个问题。
+在图片\ref{sampe-property}中，垂直的线代表了真实值$1 , 2, 3$ 通过不同真实值的表现体现了 SAMPE 的动态分数。当实际值和预测值的差接近于零是，SMAPE 的分数会接近于无穷，所以要避免这个问题。
 
 \subsection{ARIMA 算法访问量预测}
 

@@ -124,7 +124,7 @@ CPU，内存，网络带宽，磁盘I/O，通过研究发现，采用不同的�
 
 由于不能简单的使用 CPU 性能和任务队列长度作为负载向量指标，所以我们需要一个综合的负载信息评价标准，获取多种不同的指标信息，
 经过数学运算，得到一个能够从多方面体现节点负载程度的新指标。通过对黄伟华，一种特征加权模糊聚类的负载均衡算法\cite{黄伟华2017一种特征加权模糊聚类的负载均衡算法}
-的研究，主要有三种方法。第一种方法既是使用队列长度作为主要指标，同时考虑使用 CPU 和磁盘IO 作为次要指标；另一种是完全结合，同时将队列的长度和资源利用
+ 的研究，主要有三种方法。第一种方法既是使用队列长度作为主要指标，同时考虑使用 CPU 和磁盘IO 作为次要指标；另一种是完全结合，同时将队列的长度和资源利用
 率作为参考指标；最后一种是通过优先级作为主要指标，比如内存占用情况，在内存充足的情况下，在考虑其他次要的指标。
 
 \subsection{本文选择的参考指标}
@@ -389,7 +389,7 @@ upstream backend {
 }
 \end{lstlisting}
 
-通过对 Nginx 源码的研究，在 \texttt{ngx\_http\_upstream\_round\_round\_robin.c} 这个文件下 \texttt{ngx\_http\_upstream\_get\_round\_robin\_peer}
+通过对 Nginx 源码的研究，在 ngx\_http\_upstream\_round\_round\_robin.c 这个文件下 ngx\_http\_upstream\_get\_round\_robin\_peer
 函数是对加权轮询算法的实现。在具体分配任务的环节，为了记录上游集群节点服务器的权值公设有四个变量，
 依次是 weight、effective\_weight、total 和 current\_weight。
 
