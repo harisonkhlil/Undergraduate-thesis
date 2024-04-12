@@ -153,7 +153,7 @@ CPU，内存，网络带宽，磁盘I/O，通过研究发现，采用不同的�
 有的节点处于低负载的情况，这样服务器集群的性能就不能得到充分的发挥，所以需要一直监控集群中
 各个节点的负载状况，不断调整任务队列的分配方案。下面是计算当前服务器节点的负载状态的数学公式
 \[
-  U_j = 1000 \cdot (W_{cpu} \cdot C_j + W_{mem} \cdot M_j + W_{io} \cdot D_j + W_{net} \cdot N_j)\tag{1.1}
+  U_j = W_{cpu} \cdot C_j + W_{mem} \cdot M_j + W_{io} \cdot D_j + W_{net} \cdot N_j\tag{1.1}
 \]
 $U_j$ 为当前服务器节点的总体剩余性能。通过对 $U_j$ 值的监控，观察其变化范围作为判断是否需要修改请求人文分配方案的依据。
 
@@ -372,9 +372,7 @@ Nginx 自身支持多种负载均衡算法，除了使用源码自带的内置�
 \end{figure}
 
 默认的轮询算法是等值轮询，即按照一比一的比例向不同的服务器节点分发请求，当配置文件
-没有任何 weight 权值参数是，则采用默认的轮询算法。于是加权轮询算法则考虑了不同性能特点
-的服务器节点，性能好的服务器则设置较大的权值，性能不好的服务器则设置较小的权值。
-当任务入队列时负载均衡器则可以按照设置好的权值比例合理的悬着服务器执行请求调度
+没有任何 weight 权值参数是，则采用默认的轮询算法。
 
 \begin{lstlisting}
 # 默认的轮询算法
@@ -382,47 +380,14 @@ upstream backend {
     server 127.0.0.14：80 max_fails=2 fail_timeout=10s;
     server 127.0.0.15：80 max_fails=2 fail_timeout=10s;
 }
-# 加权轮询算法
-upstream backend {
-    server 127.0.0.14:80 weight=5 max_fails=2 fail_timeout=10s;
-    server 127.0.0.15:80 weight=10 max_fails=2 fail_timeout=10s;
-}
 \end{lstlisting}
 
-通过对 Nginx 源码的研究，在 ngx\_http\_upstream\_round\_round\_robin.c 这个文件下 ngx\_http\_upstream\_get\_round\_robin\_peer
-函数是对加权轮询算法的实现。在具体分配任务的环节，为了记录上游集群节点服务器的权值公设有四个变量，
-依次是 weight、effective\_weight、total 和 current\_weight。
-
-\noindent\begin{longtblr}
-  [caption = {加权轮询算法变量及描述}]
-  {hlines, colspec = {|X[1, c]|X[2, c]|}}
-  变量 & 描述 \\
-  weight & 初始权值，固定不变 \\
-  effective\_weight & 发生错误，权值减小 \\
-  total & 集群服务器权值总和 \\
-  current\_weight & 实时权值，初始为零 \\
-\end{longtblr}
-
-在一次任务中，负载均衡器勉励上游服务器节点的 current\_weight 加上起对应的有效权值 effective\_weight，
-负载均衡器将会选择 current\_weight 最大的服务器节点为本轮最佳服务器。当该服务器正在进行任务时，负载均衡器会
-降低其 current\_weight。Nginx 定义了两个事件状态，NGX\_OK 表示成功选择最佳服务器，NGX\_BUSY 表示服务器选择失败
-或者通信发生错误。加权轮询算法详细流程如下图2.8 所示。
-
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/round-flowchart.jpg}
-  \caption{Nginx 加权轮询算法流程图}
-\end{figure}
-
-加权轮询算法，虽然考虑了上游服务器节点的不同性能差异，算法的复杂度比较低，执行效率较高，节点选择频次相对平滑，
-配置简单，但是在具体任务过程中，有些任务比较繁忙，有些任务比较轻松，这种静态的权重调节无法根据真实负载
-情况进行动态调整。为了解决这个问题，诞生了动态权值的加权轮询算法，基于手机各个后台服务器节点工作时的 CPU
-利用率、内存利用率、网络性能和磁盘IO等性能情况，动态的调整后端服务器节点权重\cite{谭畅2021云中心基于}。该算法在高并发
-的场景下，响应时间和实际并发方面表现更好。
+轮询算法，算法的复杂度比较低，执行效率较高，但是不能体现出集群节点内不同的性能差异和负载情况。
 
 （2）最小连接算法
 
-最小连接算法（least\_conn）一句话概括就是：按nginx反向代理与后端服务器之间的连接数，连接数最少的优先分配\cite{周常志2023基于改进加权最小连接数的微服务负载均衡算法研究}。
+最小连接算法（least\_conn）一句话概括就是：按nginx反向代理与后端服务器之间的连接数，
+连接数最少的优先分配\cite{周常志2023基于改进加权最小连接数的微服务负载均衡算法研究}。
 要根据机器连接数分发，显然要先维护机器的连接数。
 因此，最少连接数算法需要实时追踪每个候选机器的活跃连接数；
 然后，动态选出连接数最少的机器，优先分发请求。最少连接数算法会记录当前时刻，
@@ -442,12 +407,13 @@ upstream backend {
 任务时，就将其对应的 number 值上加上 1，当任务完成之后，再将 number 值减去 1。Nginx 根据集群各服务器
 计数变量的变化，每次都会挑选 number 数值最小的服务器进行任务分配。同时最小连接算法与加权连接算法接轨，
 如果初始为每一个性能各异的服务器分配初始权重，那么当分发任务请求时将选择连接数与权值比例最小的服务器
-节点作为最佳服务器节点。最小连接算法流程图如下如下图所示。
+节点作为最佳服务器节点。最小连接算法流程图如图\ref{minlinkconnection}所示。
 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{figures/least-flowchart.jpg}
   \caption{Nginx 最小连接算法}
+  \label{minlinkconnection}
 \end{figure}
 
 最小连接算法根据服务器连接数大小变化的统计结果来动态的选择服务器分发任务，对于服务器的实时
@@ -488,7 +454,7 @@ IP 哈希算法流程图如下所示。
 
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=\textwidth]{hash-flowchart.jpg}
+  \includegraphics[width=\textwidth]{figures/hash-flowchart.jpg}
   \caption{Nginx IP 哈希算法流程图}
 \end{figure}
 
@@ -512,4 +478,4 @@ fair 算法在分配客户端请求时依据上游服务器的响应时间作为
 本章主要阐述了常规负载均衡算法探究涉及的相关理论和技术。首先介绍了服务器集群的概念和分类，
 同时确定了如何测量服务器剩余节点性能的标准。其次分析了负载均衡技术的意义与优势，在分析负载均衡类型的过程中
 确认了要突破的方向。最后通过对于Nginx 源码的了解探究了 Nginx 的工作模式和进程模型，了解了常规的负载均衡算法以及实现，
-让我明确了向动态负载均衡算法中关于网络方面的研究方向。
+明确了动态负载均衡算法的改进研究方向。

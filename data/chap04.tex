@@ -94,7 +94,7 @@ svctm~  & I/O需求完成的平均时间                                       \
 对 $\mathbf{A}$ 进行特征分解后得到一组降序排列的特征值$\lambda_1 \ge \lambda_2 ... \ge \lambda_n > 0$ 相对应的单位特征向量 $v_1, v_2, \dots, v_n$。
 其中，特征值越大的，其对应的主成分越重要。于是，综合负载决策函数如下。
 \begin{equation}
-  \mathbf{X} = 1000 \times (\mu_1C_{usg} + \mu_2M_{usg} + \mu_3D_{usg} + \mu_4N_{usg})
+  \mathbf{X} = \mu_1C_{usg} + \mu_2M_{usg} + \mu_3D_{usg} + \mu_4N_{usg}
 \end{equation}
 
 通过指定欲保留的主成分比重阈值 $\theta \in (0, 1]$ 来确定目标唯独 k 的大小。
