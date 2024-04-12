@@ -98,7 +98,7 @@ svctm~  & I/O需求完成的平均时间                                       \
 \end{equation}
 
 通过指定欲保留的主成分比重阈值 $\theta \in (0, 1]$ 来确定目标唯独 k 的大小。
-具体来说$\k$可以通过 $\frac{\sum^{k}_{i = 1}\lambda_i}{\sum^{d}_{i = 1}\lambda_i} \ge \theta$ 来得到。
+具TCN 模型参数组合体来说$\k$可以通过 $\frac{\sum^{k}_{i = 1}\lambda_i}{\sum^{d}_{i = 1}\lambda_i} \ge \theta$ 来得到。
 取前 $k$ 个特征值对应的特征向量组成的主成分空间$\mathbb{V}_{d \times k} = (v_1, v_2, \cdots, v_k)$。将标准化后的原始数据集$\mathbf{X}_{n \times d}$ 投影到由前 $k$ 个特征向量构成的主成分空间 $\mathbf{V}_{d \times k}$中，得到了降维后的 $k$ 维数据集。
 \begin{equation}
   \mathbf{Z}_{n \times k} = \mathbf{X}_{n \times d}\mathbf{V}_{d \times k}
@@ -121,7 +121,7 @@ svctm~  & I/O需求完成的平均时间                                       \
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{figures/embedding.drawio.png}
+  \includegraphics[width=0.7\textwidth]{figures/embedding.png}
   \caption{原始时序序列嵌入生成向量}
 \end{figure}
 
@@ -132,7 +132,7 @@ TCN所依赖的卷积操作在本质上就是一维卷积（1D-CNN）。一维�
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=.9\textwidth]{figures/convolution_1.drawio.png}
+  \includegraphics[width=.9\textwidth]{figures/convolution_1.png}
   \caption{卷积核为2的卷积过程}
 \end{figure}
 
@@ -142,7 +142,7 @@ TCN所依赖的卷积操作在本质上就是一维卷积（1D-CNN）。一维�
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/convolution_2.drawio.png}
+  \includegraphics[width=0.9\textwidth]{figures/convolution_2.png}
   \caption{padding 后的卷积}
 \end{figure}
 
@@ -153,7 +153,7 @@ padding是左右两头都增加0，如果padding是1的话，就是上图的效�
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/causal_convolution.drawio.png}
+  \includegraphics[width=\textwidth]{figures/causal_convolution.png}
   \caption{因果卷积}
 \end{figure}
 
@@ -174,7 +174,7 @@ padding是左右两头都增加0，如果padding是1的话，就是上图的效�
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/dilation_convolution.drawio.png}
+  \includegraphics[width=\textwidth]{figures/dilation_convolution.png}
   \caption{dilation=1 的膨胀因果卷积}
 \end{figure}
 
@@ -188,7 +188,7 @@ padding的数值在卷积核是2的情况下等于dalition的数值。
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/tcn_1.drawio.png}
+  \includegraphics[width=\textwidth]{figures/tcn_1.png}
   \caption{TCN 训练网络骨干}
 \end{figure}
 
@@ -206,7 +206,7 @@ padding的数值在卷积核是2的情况下等于dalition的数值。
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.5\textwidth]{figures/residual_block.drawio.png}
+  \includegraphics[width=0.5\textwidth]{figures/residual_block.png}
   \caption{残差模块}
   \label{residual_block}
 \end{figure}
@@ -219,7 +219,7 @@ iden mapping 被称为 shortcut 连接，residual mapping 即是 F（x）。残�
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{figures/resiual_tcn.drawio.png}
+  \includegraphics[width=\textwidth]{figures/resiual_tcn.png}
   \caption{TCN 的残差模块设计}
   \label{residual_tcn}
 \end{figure}
@@ -244,7 +244,7 @@ iden mapping 被称为 shortcut 连接，residual mapping 即是 F（x）。残�
   vline{4} = {2}{-}{},
   hline{1,8} = {-}{0.08em},
 }
-序号 & \$d\$ & \$K\$ & 序号 & \$d\$ & \$K\$ \\
+序号 & $d$ & $K$ & 序号 & $d$ & $K$ \\
 1  & 2     & 1x3   & 7  & 8     & 1x3   \\
 2  & 2     & 1x5   & 8  & 8     & 1x5   \\
 3  & 2     & 1x7   & 9  & 8     & 1x7   \\

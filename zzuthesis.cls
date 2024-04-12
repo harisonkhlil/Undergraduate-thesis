@@ -495,8 +495,8 @@
 %%           左缩进4字符，两端对齐，页码右对齐
 %% 图和附表清单：宋体10.5磅，行距16磅
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\setcounter{secnumdepth}{3}%章节编号深度：4
-\setcounter{tocdepth}{2}%目录深度：2
+\setcounter{secnumdepth}{2}%章节编号深度：2
+\setcounter{tocdepth}{1}%目录深度：2
 
 \renewcommand\tableofcontents{%
   \pagestyle{frontmatterstyle}
@@ -529,10 +529,10 @@
   {\thecontentslabel\quad}{}
   {\titlerule*[0.5em]{$\cdot$}\xiaosi\contentspage}
   [\addvspace{3bp}] % 下间距
-% \titlecontents{subsection}[3\ccwd]{\vspace{6bp} \xiaosi[1]}
-%   {\thecontentslabel\quad}{}
-%   {\titlerule*[0.5em]{$\cdot$}\xiaosi\contentspage}
-%   [\addvspace{3bp}] % 下间距
+\titlecontents{subsection}[3\ccwd]{\vspace{6bp} \xiaosi[1]}
+  {\thecontentslabel\quad}{}
+  {\titlerule*[0.5em]{$\cdot$}\xiaosi\contentspage}
+  [\addvspace{3bp}] % 下间距
 \titlecontents{figure}[\z@]{\xiaosi[1.524]}%10.5bp，16bp
   {\makebox[3.5em][l]{\figurename~\thecontentslabel\quad}}{}
   {\hspace{.5em}\titlerule*{.}\contentspage}
