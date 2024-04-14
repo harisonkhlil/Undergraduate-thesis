@@ -255,15 +255,14 @@ Content Length 是有多长，然后知道 Body 要读到哪里。根据不同�
 
 四层即传输层，对于用户任务，四层负载均衡器首先通过预先配置好的负载均衡策略在内部网络
 中挑选一台最好的服务器，接着将请求报文中的目标IP地址和端口号修改为内部最佳的服务器IP和端口号
-并建立TCP链接转发请求，最后将响应结果返回给用户。用 Nginx 模拟四层负载均衡如下图所示。
+并建立TCP链接转发请求，最后将响应结果返回给用户。用 Nginx 模拟四层负载均衡如下图\ref{four_land_balance}所示。
 
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{figures/nginx-l4lb-2048x911.jpg}
   \caption{Nginx 作为四层负载均衡使用}
+  \label{four_land_balance}
 \end{figure}
-
-\newpage
 
 \section{Nginx 服务器}
 

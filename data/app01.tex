@@ -4,3 +4,78 @@
 %% Author: 苏峻锋
 %%================================================
 \chapter{附录A 相关模型算法实现主要代码}
+
+\begin{lstlisting}
+# 定义一个1-D卷积层的截断模块，主要用于去除sequence右边的padding
+class Crop1d(nn.Module):
+    def __init__(self, crop_size):
+        super(Crop1d, self).__init__()
+        self.crop_size = crop_size  # 输入需要被裁剪的序列长度
+
+    def forward(self, sequence):
+        return sequence[:, :, :-self.crop_size].contiguous()  # 裁剪输入，返回截断后的序列
+
+# 定义用于时间序列预测的1-D卷积神经网络
+class TemporalBlock(nn.Module):
+    def __init__(self, n_inputs, n_outputs, kernel_size, stride, dilation, padding, dropout=0.2):
+        super(TemporalBlock, self).__init__()
+
+        # 定义两个卷积层，对权重进行规范化
+        self.conv1 = weight_norm(nn.Conv1d(n_inputs, n_outputs, kernel_size,
+                                           stride=stride, padding=padding, dilation=dilation))  # 第一层卷积层
+        self.crop1 = Crop1d(padding)  # 第一层卷积层后面的截取模块
+        self.relu1 = nn.ReLU()  # 第一层卷积的激活函数
+        self.dropout1 = nn.Dropout(dropout)  # 第一层卷积的dropout层
+
+        self.conv2 = weight_norm(nn.Conv1d(n_outputs, n_outputs, kernel_size,
+                                           stride=stride, padding=padding, dilation=dilation))  # 第二层卷积层
+        self.crop2 = Crop1d(padding)  # 第二层卷积层后面的截取模块
+        self.relu2 = nn.ReLU()  # 第二层卷积的激活函数
+        self.dropout2 = nn.Dropout(dropout)  # 第二层卷积的dropout层
+
+        # 将两个卷积层、截取模块、激活函数和dropout层按照顺序放入一个新的模型中，并作为TimeBlock的网络模型
+        self.net = nn.Sequential(self.conv1, self.crop1, self.relu1, self.dropout1,
+                                 self.conv2, self.crop2, self.relu2, self.dropout2)
+
+        # 如果输入和输出的特征通道数不同，定义1x1的卷积层进行通道数的转换
+        self.downsample = nn.Conv1d(n_inputs, n_outputs, 1) if n_inputs != n_outputs else None
+        self.relu = nn.ReLU()
+        self.init_weights()  # 初始化模型参数
+
+    # 对模型的参数进行初始化
+    def init_weights(self):
+        self.conv1.weight.data.normal_(0, 0.01)
+        self.conv2.weight.data.normal_(0, 0.01)
+        if self.downsample is not None:
+            self.downsample.weight.data.normal_(0, 0.01)
+
+    # 前向传播计算
+    def forward(self, x):
+        out = self.net(x)  # 对输入的x进行卷积操作，并通过relu和dropout层进行处理
+        res_part = x if self.downsample is None else self.downsample(
+            x)  # 如果输出的通道数和输入的通道数不一致，则需要定义一个1x1的卷积层进行通道数转换，这里将res_part指定为输入x或转换后的输出结果。
+        res = out + res_part  # 使用相加的方式进行残差连接
+        return self.relu(res)  # 通过激活函数处理后返回
+
+# 定义用于时间序列预测的卷积神经网络模型
+class TemporalConvNet(nn.Module):
+    # num_inputs是一个列表，其长度代表TemporalBlock的层数，值表示输入序列的通道数（特征维度）。
+    # out_channels是一个列表，其长度代表TemporalBlock的层数，值表示每个TemporalBlock中输出的通道数（特征维度）。
+    # kernel_size是卷积核的大小，默认为2。
+    def __init__(self, in_channels, out_channels, kernel_size=2, dropout=0.2):
+        super(TemporalConvNet, self).__init__()
+        layers = []
+        num_levels = len(out_channels)
+        # 使用for循环，定义多个TemporalBlock模块，并按序添加到网络结构中
+        for i in range(num_levels):
+            dilation_size = 2 ** i  # 逐层dilation以2的指数增长
+            in_channel = in_channels[i]
+            out_channel = out_channels[i]
+            layers += [TemporalBlock(in_channel, out_channel, kernel_size, stride=1, dilation=dilation_size,
+                                     padding=(kernel_size - 1) * dilation_size, dropout=dropout)]
+        self.network = nn.Sequential(*layers)
+
+    # 模型前向计算，按顺序执行各模块的前向计算
+    def forward(self, x):
+        return self.network(x)
+\end{lstlisting}

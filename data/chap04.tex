@@ -103,6 +103,11 @@ svctm~  & I/O需求完成的平均时间                                       \
 \begin{equation}
   \mathbf{Z}_{n \times k} = \mathbf{X}_{n \times d}\mathbf{V}_{d \times k}
 \end{equation}
+
+在这个公式中，$\mathbf{X}_{n \times d}$ 表示标准化后的原始数据集，其中 $n$ 是样本数，$d$ 是原始特征数。$\mathbf{V}_{d \times k}$ 包括了前 $k$ 个特征值对应的特征向量（这些特征向量通常是按照特征值大小从大到小排列的），它们构成了主成分空间。这个空间的维度（$k$）通常远小于原始特征空间的维度（$d$）。
+
+当原始数据集 $\mathbf{X}$ 与主成分空间 $\mathbf{V}_{d \times k}$ 相乘时，得到的 $\mathbf{Z}_{n \times k}$ 就是投影到这个 $k$ 维空间的数据集。在这个 $k$ 维空间中，每一行代表了原始数据的一个样本，每一列则对应一个主成分。$\mathbf{Z}$ 的列向量提供了在主成分空间中的坐标，即降维后的数据表示。
+
 其中在进行特征分解后，就已经得到了主成分空间，空间内含有了最重要的4个特征值，
 这个特征值就是权重的系数，通过降维与原始数据值相乘后得到的就是每个指标乘以权重系数后的数据集，只需要对降维的数据集进行每一列的相加，即可对得到时间序列-综合负载指标的数据集。
 
@@ -231,8 +236,57 @@ iden mapping 被称为 shortcut 连接，residual mapping 即是 F（x）。残�
 
 综合相关文献，对比了常规 RNN、LSTM、GRU 与 TCN 等循环神经网络在多种典型序列模型预测问题的性能表现上，结果表明 TCN 通常可以获得更好的预测精度，可以作为时间序列预测建模的有效手段\cite{bai2018empirical}\cite{赵洋2022基于时间卷积网络的短期电力负荷预测}。
 
-（1）TCN 参数设置
-由膨胀因果卷积的原理可知，TCN 模型中的扩大因子$d$ 和卷积核大小 $K$ 是决定TCN 模型预测性能的主要参数。此参数的选择目前尚无理论指导， 一般均需通过实验对比取得\cite{hewage2020temporal}。由于实验数据以及实验环境的限制，无法通过实验来确定当前不同配置的TCN模型的 $MAE$ 值和 $RMSE$ 值来确定最佳参数。但是可以列举几个比较通用的模型参数，其中， 扩大因子 d 分别取值为 2、4 、8 和 16 ；卷积核 K 分别取为 1×3、1×5 和 1×7 ，两组参数共构成 12 种组合形式，如下表所示。
+（1）准备数据
+通过使用监控脚本，周期性的收集 CPU、内存、磁盘 I/O 和网络带宽的利用率，并把这些数据保存到一个 CSV 文件中。由于作者本身的技能问题，不能使用高效率的监控程序，使用了 bash脚本来监控这些参数。
+
+\begin{lstlisting}
+#!/bin/bash
+
+# 设置本地 CSV 文件路径
+OUTPUT_FILE="/path/to/your/output_file.csv"
+
+# 写入 CSV 文件的标题行
+echo "Timestamp,CPU_Usage,Mem_Usage,Disk_Read,Disk_Write,Network_In,Network_Out" > $OUTPUT_FILE
+
+# 设置网络接口名称
+NETWORK_INTERFACE="eth0"
+
+# 捕获信号，以便优雅地退出
+trap "echo 'Script terminated'; exit" SIGHUP SIGINT SIGTERM
+
+# 开始收集数据
+while true; do
+    # 获取 CPU 使用率
+    CPU_USAGE=$(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}')
+
+    # 获取内存使用率 (使用的内存比例)
+    MEM_USAGE=$(free -m | awk 'NR==2{printf "%.2f", $3*100/$2 }')
+
+    # 获取磁盘读写数据 (需要 sysstat 包安装)
+    DISK_IO=$(iostat -dx | awk 'NR>3 {print $6,$7}' | awk '{read+=$1; write+=$2} END {print read,write}')
+
+    # 获取网络带宽使用数据 (需要 ifstat 包安装)
+    NETWORK=$(ifstat -i $NETWORK_INTERFACE 1 1 | awk 'NR==3 {print $6,$8}')
+
+    # 获取当前时间戳
+    TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+    # 写入数据到 CSV
+    echo "$TIMESTAMP,$CPU_USAGE,$MEM_USAGE,$DISK_IO,$NETWORK" >> $OUTPUT_FILE
+
+    # 设置延迟时间，例如每隔 1 分钟收集一次数据
+    sleep 60
+done
+\end{lstlisting}
+
+这个脚本会无限循环到直到我手动暂停，可以设置循环次数，也可以设置循环大周期，比如使用 nohup 来进行循环次数的限制，使用每日，每周，每月作为一个大周期获得较为长远的数据，来进行更加准确的预测。通过主成分空间分析得到的原始数据集，然后分为按照 $9:1$ 分为训练集和测试集。
+
+（2）TCN 参数设置
+
+由膨胀因果卷积的原理可知，TCN 模型中的扩大因子$d$ 和卷积核大小 $K$ 是决定TCN 模型预测性能的主要参数。
+此参数的选择目前尚无理论指导， 一般均需通过实验对比取得\cite{hewage2020temporal}。
+由于实验数据以及实验环境的限制，无法通过实验来确定当前不同配置的TCN模型的 $MAE$ 值和 $RMSE$ 值来确定最佳参数。
+但是可以列举几个比较通用的模型参数，其中， 扩大因子 d 分别取值为 2、4 、8 和 16 ；卷积核 K 分别取为 1×3、1×5 和 1×7 ，两组参数共构成 12 种组合形式，如下表所示。
 
 % \usepackage{tabularray}
 \begin{longtblr}[
@@ -255,9 +309,53 @@ iden mapping 被称为 shortcut 连接，residual mapping 即是 F（x）。残�
 
 通过使用不同参数的 TCN 模型可以得到 MAE（平均绝对误差）即观测值与预测值绝对差的平均值、RMSE（均方根误差)即观测值与预测值差的平方的平均值的平方根。来确定最佳参数。 通过指定训练参数 epoch 以及 lr 来获得预测值，在通过与观测值的比较即可选择到较好的模型参数。
 
+（3）特征学习训练以及优化网络模型
+
+指定时间卷积的参数扩大因子$d$ 和卷积核尺寸$K$,以及指定的 epoch 和 lr 开始训练；使用均方根误差作为目标函数计算预估值和真实值的误差，并利用 Adam 优化算法更新网络中的参数\cite{kingma2014adam}。下面是重要的训练代码。
+
+\begin{lstlisting}
+# 定义均方根误差为损失函数
+class RMSELoss(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, yhat, y):
+        return torch.sqrt(torch.mean((yhat - y) ** 2))
+
+# 初始化损失函数
+loss_function = RMSELoss()
+# 开始进行训练
+for epoch in range(num_epochs):
+    for batch in train_loader:
+        inputs, targets = batch
+        optimizer.zero_grad()  # 清除过往梯度
+        outputs = model(inputs)  # 获取模型预测结果
+        loss = loss_function(outputs, targets)  # 计算损失
+        loss.backward()  # 反向传播，计算梯度
+        optimizer.step()  # 使用 Adam 更新模型权重
+\end{lstlisting}
+
+（4）输出预估值
+
+在PyTorch中，可以直接调用模型对象并直接将输入数据传递给它以获得预测值。
+\begin{lstlisting}
+# 切换模型到评估模式
+model.eval()
+
+# 不计算梯度来加速计算和减少内存消耗
+with torch.no_grad():
+    for inputs in test_loader:
+        # 输入新数据集
+        predictions = model(inputs)
+        # 输出预测值
+        print(predictions)
+\end{lstlisting}
+
+在上述的代码中，prediction变量包含了模型基于inputs给出的预测结果。如果是预测未来一个时间步，prediction可能只是一个数字。如果是预测未来多个时间步，prediction可能是一个Numpy数组或者PyTorch张量，其中包含一系列预测值。如果输入的一条数据，那么输出的就是单一的预测值，如果输入的是一个序列，那么输出的就是包含多个值的序列。可以通过预测后的序列值观察综合负载情况，然后进行判断。
+
 \section{本章总结}
 
 本章首先探讨了如何获取到剩余性能的数据，并根据科学的主成分分析法来选取合适的权重参数，用合适的权重参数得到了能较好体现负载情况的综合负载指标数据集。
 
 接着讨论了时间卷积网络与其他循环神经网络的不同之处，得到了其在时间序列预测性能的特征和具体原理和具体过程。最后将综合负载指标已经对应的时间戳形成对应的时间序列数据集。通过设置 epoch 和 lr 来暂时确定 MAE 和 RMSE 的走势情况，以获取训练的最佳参数。
-设置了最佳参数后可以进行更大的 epoch 来实现更好的预测性能。
+设置了最佳参数后可以进行更大的 epoch 来实现更好的预测性能。总体描述使用时间卷积网络来进行训练的步骤，分化训练集和测试集，然后根据上面得到的最佳参数设置，进行网络训练拟合，最后输出我们想要的预估值。

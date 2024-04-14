@@ -58,8 +58,6 @@ ARIMA模型是在ARMA模型的基础上增加了差分的操作，以处理非�
 
 其中，B是差分操作符，$\phi_1, \phi_2, \ldots, \phi_p$是自回归项的系数，$\theta_1, \theta_2, \ldots, \theta_q$是移动平均项的系数，$\epsilon_t$是白噪声误差项。ARIMA模型的参数通常通过极大似然估计（Maximum Likelihood Estimation, MLE）或者最小二乘法来确定。在使用ARIMA模型之前，往往需要确定模型的p、d和q值，这通常通过模型的自相关函数（ACF）和偏自相关函数（PACF）来辅助确定。ARIMA模型的优点是能够处理非平稳时间序列数据，但是它的缺点是需要对模型的参数进行较为复杂的确定。
 
-在这些普遍的预测模型中，其中一些表现出了优秀的预测准确度
-
 \section{访问量的时间序列预测算法}
 
 对于访问量的预测能够有效的对服务器集群的负载能力加以调节，避免访问量过大导致的服务器集群某一节点的负载过高，使得任务处理能力下降，从而达到增强负载均衡的作用。
@@ -134,7 +132,11 @@ ARIME 模型也被称为 Box-Jenkins 模型，可能包含自回归项（AR）�
 由于 Kaggle 比赛中使用的数据命名的混乱，比如存在 52\_Hz\_I\_Love\_You\_zh.wikipedia.org\_all-access\_spider 
 复杂的命名需要进行重新命名和分类，同时需要填充不存在的数值为 NaN
 同时由于 ARIMA 模型对数据进行分析和预测要求序列是有一个零均值平稳随机过程产生，因此需要需要判断数据的平稳性\cite{赵鹏2020基于}，通过使用 ADF 检验序列中是否存在单位根，如果存在则为非平稳时间序列。
-下表给出了泰勒·斯威夫特词条进行ADF检验的结果。
+ADF检验的核心是基于一个时间序列模型来测试序列中的单位根。具体来说，ADF检验通常使用以下的回归模型来进行单位根的测试。
+\begin{equation}
+    \Delta y_t = \alpha + \beta t + \gamma y_{t-1} + \delta_1 \Delta y_{t-1} + \cdots + \delta_p \Delta y_{t-p} + \epsilon_t
+\end{equation}
+在这个公式中，$y_t$ 是时间序列数据，$\Delta$ 是一阶差分运算符，$\Delta y_t = y_t - y_{t-1}$，$t$ 是趋势项，$\alpha$是常数项，$\beta$ 是时间趋势项的系数，$\gamma$ 是滞后一阶的系数，ADF检验的关键在于检验这个系数；如果$\gamma = 0$，则存在单位根，$\delta_1, \delta_2, \cdots, \delta_p$ 是差分项的系数，$\epsilon_t$ 是随机误差项，$p$ 是滞后阶数，它可以根据各种信息准则（如AIC或BIC）来确定。下表给出了泰勒·斯威夫特词条进行ADF检验的结果。
 
 \noindent\begin{longtblr}[
   caption = {泰勒·斯威夫特的 ADF 检验},

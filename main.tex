@@ -1,9 +1,8 @@
 %%================================================
 %% Filename: main.tex
 %% Encoding: UTF-8
-%% Author: Yuan Xiaoshuai - yxshuai@gmail.com
-%% Created: 2012-01-08 13:09
-%% Last modified: 2020-04-05 21:01
+%% Author: 苏峻锋
+%% Created: 2024.4.14
 %%================================================
 % !TEX program = xelatex
 \documentclass[bachelor]{zzuthesis}
@@ -20,6 +19,7 @@
 % code style setting
 \usepackage{listings}
 \usepackage{xcolor}
+\setmonofont{Source Code Pro}[Scale=MatchLowercase]
 
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
@@ -27,7 +27,7 @@
 \definecolor{eggshell}{rgb}{0.94, 0.92, 0.84}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{eggshell},
+    % backgroundcolor=\color{eggshell},
     commentstyle=\color{guppiegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
@@ -38,10 +38,13 @@
     captionpos=b,
     keepspaces=true,
     numbers=left,
-    numbersep=5pt,
+    columns=flexible,
+    numbersep=2em,
     showspaces=false,
     showstringspaces=false,
     showtabs=false,
+    frame=single,
+    framesep=1em, % 设置代码与边框的距离
     tabsize=2
 }
 
