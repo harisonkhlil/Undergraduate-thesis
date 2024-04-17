@@ -15,6 +15,7 @@
 \usepackage{tabularray}
 \usepackage{chemmacros}
 \UseTblrLibrary{varwidth}
+\usepackage{pdfpages}
 
 % code style setting
 \usepackage{listings}
@@ -58,6 +59,7 @@
 \input{data/cover}%封面
 \input{data/abstract}%摘要
 \makecover
+\includepdf[pages=-]{data/promise.pdf}
 \tableofcontents
 \makeatletter
 \zzu@makeabstract

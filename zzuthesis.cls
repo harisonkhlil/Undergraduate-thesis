@@ -252,6 +252,13 @@
 \fancypagestyle{frontmatterstyle}{
   \fancyhf{}
 %  \fancyhead[C]{\xiaowu{河南中医药大学本科毕业论文}}
+  % \fancyfoot[C]{\xiaowu \thepage}
+  \renewcommand{\headrulewidth}{0pt} % 在这个样式中，页眉下方没有横线
+}
+
+\fancypagestyle{frontabstractstyle}{
+  \fancyhf{}
+%  \fancyhead[C]{\xiaowu{河南中医药大学本科毕业论文}}
   \fancyfoot[C]{\xiaowu \thepage}
   \renewcommand{\headrulewidth}{0pt} % 在这个样式中，页眉下方没有横线
 }
@@ -673,33 +680,33 @@
     \begin{center}
         {\xiaosan\rmfamily\zzu@submitdate}
     \end{center}
-    \clearpage
-    \thispagestyle{zzu@empty}
+    % \clearpage
+    % \thispagestyle{zzu@empty}
     %原创性声明及授权声明 
     %上部分
-    \vspace*{\stretch{1}}
-    \begin{center}
-    	\sffamily\sanhao \zzu@declarename
-    \end{center}
-    \songti\xiaosi[2]\zzu@declaretext
-    \vskip 20pt
-    \begin{tabular}{lll}
-        \songti\zzu@authorsig & \zzu@signline{} & \zzu@declaredate\\
-        \songti\zzu@teachersig & \zzu@signline{} & \zzu@declaredate
-    \end{tabular}
-    %下部分
-    \vspace*{\stretch{2}}
-    \begin{center}
-    	\sffamily\sanhao \zzu@authtitle
-    \end{center}
-    \xiaosi[2]\zzu@authorization
-    \vskip 20pt
-    % 其实就是放在一个表格中
-    \begin{tabular}{lll}
-        \songti\zzu@authorsig & \zzu@signline{} & \zzu@declaredate\\
-        \songti\zzu@teachersig & \zzu@signline{} & \zzu@declaredate
-    \end{tabular}
-    \vspace*{\stretch{2}}
+    % \vspace*{\stretch{1}}
+    % \begin{center}
+    % 	\sffamily\sanhao \zzu@declarename
+    % \end{center}
+    % \songti\xiaosi[2]\zzu@declaretext
+    % \vskip 20pt
+    % \begin{tabular}{lll}
+    %     \songti\zzu@authorsig & \zzu@signline{} & \zzu@declaredate\\
+    %     \songti\zzu@teachersig & \zzu@signline{} & \zzu@declaredate
+    % \end{tabular}
+    % %下部分
+    % \vspace*{\stretch{2}}
+    % \begin{center}
+    % 	\sffamily\sanhao \zzu@authtitle
+    % \end{center}
+    % \xiaosi[2]\zzu@authorization
+    % \vskip 20pt
+    % % 其实就是放在一个表格中
+    % \begin{tabular}{lll}
+    %     \songti\zzu@authorsig & \zzu@signline{} & \zzu@declaredate\\
+    %     \songti\zzu@teachersig & \zzu@signline{} & \zzu@declaredate
+    % \end{tabular}
+    % \vspace*{\stretch{2}}
     
     
     %研究生学位论文
@@ -851,7 +858,7 @@
   \end{titlepage}
   \normalsize
   % \zzu@makeabstract
-  \let\@tabular\zzu@tabular
+  % \let\@tabular\zzu@tabular
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -892,7 +899,7 @@
 
 \newcommand{\zzu@makeabstract}{%
   \ifzzu@doctor\cleardoublepage\else\clearpage\fi
-  \pagestyle{frontmatterstyle}
+  \pagestyle{frontabstractstyle}
   \phantomsection
   \addcontentsline{toc}{cabstracttoc}{\cabstractname} % 添加中文摘要到目录
   \begin{center}
@@ -906,7 +913,7 @@
     \vskip 14bp
   \end{center}
   % \zzu@chapter*[]{\cabstractname} % no tocline
-  \pagestyle{frontmatterstyle}
+  \pagestyle{frontabstractstyle}
   \pagenumbering{Roman}
   \zzu@cabstract
   \vskip12bp
