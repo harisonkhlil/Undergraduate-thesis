@@ -93,6 +93,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage{fontspec}
 \setmainfont{Times New Roman}
+\setmathfont[Path=assert/, Extension=.ttf]{cambriamath}
+% \setmathfont{Cambria Math}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% 中文配置
@@ -102,6 +104,7 @@
 \usepackage{xeCJKfntef}
 \setCJKmainfont[Path=assert/, Extension=.ttf]{SimSun} % 正文 宋体黑
 \setCJKsansfont[Path=assert/, Extension=.ttf]{SimHei} % 标题 黑体
+\setCJKmathfont[Path=assert/, Extension=.ttf]{SimSun}
 \ctexset{%
   contentsname={目\hspace{\ccwd} 录},
   listfigurename={插图清单},

@@ -235,7 +235,7 @@ Prophet背后的模型基础是一个可加性模型，其中趋势、季节性�
 另一个是基于分段线性函数（piecewise linear function）的。
 
 在逻辑回归函数中，一般形式是 $\sigma(x) = 1/(1+e^{-x})$ ，它的导数是 $\sigma'(x) = \sigma(x) \cdot(1-\sigma(x))$，而且$\lim_{x\rightarrow +\infty} \sigma(x) = 1, \lim_{x\rightarrow -\infty} \sigma(x) = 0$。
-如果增加一些参数的话，那么逻辑回归就可以改写成如下方程\cite{李威2021Prophet模型在GNSS坐标时间序列中的插值分析}。
+如果增加一些参数的话，那么逻辑回归就可以改写成如下方程\cite{李威2021Prophet模型在GNSS坐标时间序列中的插值分析} 。
 \begin{equation}
   g(t) = \frac{C}{1 + e^{-k(t - m)}}
 \end{equation}
@@ -267,7 +267,7 @@ Prophet背后的模型基础是一个可加性模型，其中趋势、季节性�
 （2）季节项 $s(t)$
 
 几乎所有的时间序列预测模型都会考虑这个因素，因为时间序列通常会随着天，周，月，年等季节性的变化而呈现季节性的变化，也称为周期性的变化。
-在论文中\cite{taylor2018forecasting}，作者使用傅立叶级数来模拟时间序列的周期性，当$T = 7、N = 3$ 时，表示以周为周期，当$T = 362.25、N = 10$ 表示以年为周期。
+在论文中\cite{taylor2018forecasting}，作者使用傅立叶级数来模拟时间序列的周期性，当$T = 7, N = 3$ 时，表示以周为周期，当$T = 362.25, N = 10$ 表示以年为周期。
 \begin{equation}
   s(t) = \sum_{n=1}^{N}\bigg( a_{n}\cos\bigg(\frac{2\pi n t}{P}\bigg) + b_{n}\sin\bigg(\frac{2\pi n t}{P}\bigg)\bigg)
 \end{equation}
