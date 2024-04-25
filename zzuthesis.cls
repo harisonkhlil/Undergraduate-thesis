@@ -234,8 +234,8 @@
   ignoreall,
   nomarginpar,
   left=32mm,
-  footskip=20mm,
-  top=38mm}
+  footskip=17mm,
+  top=30mm}
 \ctexset{
   punct=quanjiao,
   space=auto,
@@ -269,9 +269,9 @@
 % 定义一个正文页面样式
 \fancypagestyle{mainmatterstyle}{
   \fancyhf{}
-  \fancyhead[C]{\xiaowu{河南中医药大学本科毕业论文}}
+  \fancyhead[C]{\vspace*{1.2mm}\xiaowu{河南中医药大学本科毕业论文}}
   \fancyfoot[C]{\xiaowu 第 \thepage 页\hspace*{1\ccwd} 共 \pageref{LastPage} 页}
-  \renewcommand{\headrulewidth}{0.4pt} % 在这个样式中，页眉下方有横线
+  \renewcommand{\headrulewidth}{0.6pt} % 在这个样式中，页眉下方有横线
 }
 
 % 在前言部分使用这个样式
@@ -301,7 +301,7 @@
   \@mainmattertrue
   \pagestyle{fancy}
   \fancyhf{}
-  \fancyhead[C]{\xiaowu{河南中医药大学本科毕业论文}}
+  \fancyhead[C]{\vspace*{1.2mm}\xiaowu{河南中医药大学本科毕业论文}}
   \fancyfoot[C]{\xiaowu 第 \thepage 页\hspace*{1\ccwd} 共 \pageref{LastPage} 页}
 }
 
@@ -430,7 +430,7 @@
   chapter={%一级标题：黑体16磅，段前24磅，段后18磅
     afterindent=true,
     pagestyle={fancy},
-    beforeskip={\ifzzu@bachelor 16bp\else 5bp\fi},
+    beforeskip={\ifzzu@bachelor 12bp\else 5bp\fi},
     aftername=\hskip\ccwd,
     afterskip={\ifzzu@bachelor 12bp\else 24bp\fi},
     format={\sffamily\sanhao[1]},
@@ -442,16 +442,16 @@
   },
   section={%二级标题：黑体14磅，段前24磅，段后6磅
     afterindent=true,
-    beforeskip={\ifzzu@bachelor 12bp\else 24bp\fi\@plus .5ex \@minus .2ex},
-    afterskip={\ifzzu@bachelor 8bp\else 6bp\fi \@plus .2ex},
-    format={\sffamily\ifzzu@bachelor\sihao[1.286]\else\sihao[1.429]\fi},
+    beforeskip={\ifzzu@bachelor 8bp\else 24bp\fi\@plus .5ex \@minus .2ex},
+    afterskip={\ifzzu@bachelor 6bp\else 6bp\fi \@plus .2ex},
+    format={\sffamily\ifzzu@bachelor\xiaosan[1.286]\else\sihao[1.429]\fi},
   },
   subsection={%三级标题：段前12磅，段后6磅
     afterindent=true,
     indent={0pt}, % 不缩进
-    beforeskip={8bp \@plus .5ex \@minus .2ex},
-    afterskip={6bp \@plus .2ex},
-    format={\sffamily\ifzzu@bachelor\xiaosi[1.25]%本科
+    beforeskip={4bp \@plus .5ex \@minus .2ex},
+    afterskip={2bp \@plus .2ex},
+    format={\sffamily\ifzzu@bachelor\sihao[1.25]%本科
             \else\banxiaosi[1.538]\fi},%硕博黑体13磅
   },
   subsubsection={%四级标题：段前12磅，段后6磅
@@ -910,9 +910,9 @@
     \sffamily \xiaoer{\zzu@ctitle}
     \vskip12bp
   % 添加论文作者
-    \sffamily \xiaosan{\zzu@cauthor}
+    \rmfamily \xiaosan{\zzu@cauthor}
     \vskip16bp
-    \sffamily \xiaosan{\cabstractname}
+    \sffamily \sanhao{\cabstractname}
     \vskip 14bp
   \end{center}
   % \zzu@chapter*[]{\cabstractname} % no tocline
@@ -926,12 +926,12 @@
   \addcontentsline{toc}{eabstracttoc}{\eabstractname} % 添加英文摘要到目录
   \begin{center}
     % 添加论文标题
-    \sffamily \xiaoer{\zzu@etitle}
+    \rmfamily \textbf{\xiaoer{\zzu@etitle}}
     \vskip12bp
   % 添加论文作者
-    \sffamily \xiaosan{\zzu@eauthor}
+    \rmfamily \xiaosan{\zzu@eauthor}
     \vskip16bp
-    \sffamily \xiaosan{\eabstractname}
+    \rmfamily \textbf{\xiaosan{\eabstractname}}
     \vskip 14bp
   \end{center}
   % \zzu@chapter*[]{\eabstractname} % no tocline
