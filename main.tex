@@ -99,7 +99,7 @@
 
 \makeatletter%致谢，研究生论文中在参考文献后，附录前
 \ifzzu@bachelor\else
-  \include{data/ack}
+	\include{data/ack}
 \fi
 \makeatother
 
@@ -108,21 +108,21 @@
 % 研究生论文无具体要求
 \makeatletter
 \ifzzu@bachelor
-  \begin{appendix}
-    \input{data/app01}
-  \end{appendix}
+	\begin{appendix}
+		\input{data/app01}
+	\end{appendix}
 \fi
 \makeatother
 
 \makeatletter%个人简历
 \ifzzu@bachelor\else
-  \include{data/resume}%本科论文无要求
+	\include{data/resume}%本科论文无要求
 \fi
 \makeatother
 
 \makeatletter%致谢，本科论文在最后
 \ifzzu@bachelor
-  \include{data/ack}
+	\include{data/ack}
 \else\fi
 \makeatother
 

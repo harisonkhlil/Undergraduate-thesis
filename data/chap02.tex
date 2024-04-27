@@ -5,7 +5,7 @@
 %% Created: 2024-02-26
 %% Last modified: 2024-02-28
 %%================================================
- \chapter{相关理论及技术研究}
+\chapter{相关理论及技术研究}
 
 \section{服务器集群}
 
@@ -14,9 +14,9 @@
 服务器集群,又称集群(Cluster),是由多台服务器以线性方式相连而成的一个整体系统。在集群中,每台服务器都被视为一个节点,这些节点之间能够相互通信、协同工作,共同构建出一个高性能的服务器系统\cite{kanellopoulos2022dynamic}。当客户端(Client)发送请求时,集群内的各个服务节点会协同处理这些请求,同时通过数据库或消息队列等存储方式在节点之间共享业务数据。
 从客户端的视角来看,整个服务器集群被视为一个统一的整体,集群对外隐藏了各服务节点间的通信细节,呈现出逻辑上的一致性。
 \begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth]{figures/cluster-and-client.png}
-  \caption{服务器集群与客户端}
+	\centering
+	\includegraphics[width=\textwidth]{figures/cluster-and-client.png}
+	\caption{服务器集群与客户端}
 \end{figure}
 
 \subsection{服务器集群的架构优势}
@@ -57,17 +57,17 @@
 用户刷新造成的DDoS行为，具体衡量标准请看下面这份表。
 
 \noindent\begin{longtblr}[
-  caption = {HA衡量标准\cite{信息安全技术信息系统灾难恢复规范}},
-  ]{
-    hlines,
-    vlines,
-    % colspec={|X[c]|X[c]|X[c]|X[c]|},
-  }
-    描述 & 通俗叫法 & 可用性级别 & 年度停机时间 \\
-    基本可用性 & 2个9 & 99\% & 87.6小时 \\
-    较高可用性 & 3 个9 & 99.9\% 8.8小时 \\
-    具有故障自动恢复能力的可用性 & 4 个9 & 99.99\% & 53 分钟\\
-    极高可用性 & 5 个9 & 99.999\% & 5 分钟 \\
+		caption = {HA衡量标准\cite{信息安全技术信息系统灾难恢复规范}},
+	]{
+		hlines,
+		vlines,
+		% colspec={|X[c]|X[c]|X[c]|X[c]|},
+	}
+	描述             & 通俗叫法 & 可用性级别        & 年度停机时间 \\
+	基本可用性          & 2个9  & 99\%         & 87.6小时 \\
+	较高可用性          & 3 个9 & 99.9\% 8.8小时          \\
+	具有故障自动恢复能力的可用性 & 4 个9 & 99.99\%      & 53 分钟  \\
+	极高可用性          & 5 个9 & 99.999\%     & 5 分钟   \\
 \end{longtblr}
 
 （3）负载均衡集群
@@ -79,9 +79,9 @@
 但是如果检查到后端服务器状态异常，则该服务器会被自动剔除待其恢复正常再加入集群系统中。
 
 \begin{figure}[ht]
-  \centering
-  \includegraphics[width=\textwidth]{figures/负载均衡集群基本结构.png}
-  \caption{负载均衡集群的基本架构}
+	\centering
+	\includegraphics[width=\textwidth]{figures/负载均衡集群基本结构.png}
+	\caption{负载均衡集群的基本架构}
 \end{figure}
 
 然而,负载均衡集群也存在一定的局限性。负载均衡器无法实时监测集群服务器的性能状态,在分配请求时可能导致某些服务器过载或者闲置的情况出现。
@@ -119,25 +119,25 @@ CPU是计算机架构中至关重要的硬件组件，其利用效率在很大�
 具体的系统状态评价对应的资源利用率情况本文进行了整理，如下图表所示。
 
 \noindent\begin{longtblr}[caption={稳定系统的资源状态和评价}]
-  {hlines,vlines, colspec = {X[c]X[c]X[c]}}
-  性能指标 & 资源利用率 & 状态评价 \\ 
-  \SetCell[r=3]{c} CPU 利用率 & 70\% & 好 \\
-                              & 85\% & 坏 \\
-                              & 90\%+ & 很差 \\
-  \SetCell[r=3]{c} 磁盘IO & <30\% & 好 \\
-                          & <40\% & 坏 \\
-                          & <50\% & 很差 \\
-  运行队列 & <2*CPU数量 & 好 \\
-  网络带宽 & <30\%带宽 & 好 \\
-  \SetCell[r=3]{c} 内存 & 没有页交换 & 好 \\
-                        & 每个 CPU每秒10个页交换 & 坏 \\
-                        & 更多的页交换 & 很差\\
+	{hlines,vlines, colspec = {X[c]X[c]X[c]}}
+	性能指标                     & 资源利用率          & 状态评价 \\
+	\SetCell[r=3]{c} CPU 利用率 & 70\%           & 好    \\
+	                         & 85\%           & 坏    \\
+	                         & 90\%+          & 很差   \\
+	\SetCell[r=3]{c} 磁盘IO    & <30\%          & 好    \\
+	                         & <40\%          & 坏    \\
+	                         & <50\%          & 很差   \\
+	运行队列                     & <2*CPU数量       & 好    \\
+	网络带宽                     & <30\%带宽        & 好    \\
+	\SetCell[r=3]{c} 内存      & 没有页交换          & 好    \\
+	                         & 每个 CPU每秒10个页交换 & 坏    \\
+	                         & 更多的页交换         & 很差   \\
 \end{longtblr}
 
 由于服务器集群在处理大量任务和网络请求的过程中可能会出现负载不均的情况，其中某些节点负载过高，而其他节点则负载较低，这就需要对集群中各个节点的负载状况进行实时监控，并相应地调整任务分配策略以优化整个集群的性能。
 为了衡量当前服务器节点的负载状态，可以依据一定的数学模型来计算。具体的数学模型需要涉及各种负载指标，如CPU、内存、磁盘和网络带宽的利用情况，比如：$L_{j} = f(C_{j}, M_{j}, D_{j}, N_{j})$ 其中，$ L_{j} $ 是表示第 j 个节点负载状况的指标，而函数 $f()$ 需要是一个能够综合以上各项性能指标的函数，可以设定为它们的加权和或其他形式的聚合函数。如下。
 \[
-  U_j = W_{cpu} \cdot C_j + W_{mem} \cdot M_j + W_{io} \cdot D_j + W_{net} \cdot N_j\tag{1.1}
+	U_j = W_{cpu} \cdot C_j + W_{mem} \cdot M_j + W_{io} \cdot D_j + W_{net} \cdot N_j\tag{1.1}
 \]
 $U_j$ 为当前服务器节点的总体剩余性能。通过对 $U_j$ 值的监控，观察和比较其变化范围作为判断负载均衡器是否需要修改请求任务分配方案的根据。
 
@@ -202,20 +202,20 @@ $U_j$ 为当前服务器节点的总体剩余性能。通过对 $U_j$ 值的监�
 根据负载均衡技术类型的不同，下表分析了常见的 Nginx 负载均衡策略。
 
 \noindent\begin{longtblr}
-  [caption = {常见 Nginx 负载均衡算法分析表}]
-  {
-    hlines,
-    vlines,
-    colspec = {X[c]X[c]X[l]X[l]},
-  }
-  负载均衡算法分类 & 算法名 & 优点 & 缺点 \\
-  \SetCell[r=3]{c} 静态负载均衡 & 轮询算法 & 配置简单 & 不能考虑后端服务器性能差异 \\
-                                & 加权轮询算法 & 能够考虑不同服务器的性能差异 & 不能考虑负载后服务器的状态变化 \\
-                                & IP 哈希法 & 可以解决 session 问题 & 但在 Nginx 非最前服务器后失效 \\
-  \SetCell[r=4]{c} 动态负载均衡 & 平均分配认为 & 不能考虑服务器处理能力不同 \\
-                                & 加权最小连接法 & 考虑处理能力的不同 & 无法衡量服务器负载状态 \\
-                                & 最短响应时间法 & 根据服务器响应时间分配请求 & 通信开销过大 \\
-                                & 基于资源的方法 & 性能最大化，控制分散灵活 & 配置复杂，不一定反映实际负载 \\
+	[caption = {常见 Nginx 负载均衡算法分析表}]
+	{
+	hlines,
+	vlines,
+	colspec = {X[c]X[c]X[l]X[l]},
+	}
+	负载均衡算法分类                & 算法名     & 优点              & 缺点                 \\
+	\SetCell[r=3]{c} 静态负载均衡 & 轮询算法    & 配置简单            & 不能考虑后端服务器性能差异      \\
+	                        & 加权轮询算法  & 能够考虑不同服务器的性能差异  & 不能考虑负载后服务器的状态变化    \\
+	                        & IP 哈希法  & 可以解决 session 问题 & 但在 Nginx 非最前服务器后失效 \\
+	\SetCell[r=4]{c} 动态负载均衡 & 平均分配认为  & 不能考虑服务器处理能力不同                        \\
+	                        & 加权最小连接法 & 考虑处理能力的不同       & 无法衡量服务器负载状态        \\
+	                        & 最短响应时间法 & 根据服务器响应时间分配请求   & 通信开销过大             \\
+	                        & 基于资源的方法 & 性能最大化，控制分散灵活    & 配置复杂，不一定反映实际负载     \\
 \end{longtblr}
 
 （3）四层到七层负载均衡
@@ -233,10 +233,10 @@ Content Length 是有多长，然后知道 Body 要读到哪里。根据不同�
 然后，它将请求报文中的目标IP地址和端口号修改为选中的服务器的IP地址和端口号，接着建立TCP链接并转发请求。最后，它会将服务器的响应结果返回给用户。Nginx可模拟这一过程，如下图\ref{four_land_balance}所示。
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/nginx-l4lb-2048x911.jpg}
-  \caption{Nginx 作为四层负载均衡使用}
-  \label{four_land_balance}
+	\centering
+	\includegraphics[width=\textwidth]{figures/nginx-l4lb-2048x911.jpg}
+	\caption{Nginx 作为四层负载均衡使用}
+	\label{four_land_balance}
 \end{figure}
 
 \section{Nginx 服务器}
@@ -253,9 +253,9 @@ Nginx 有单进程和多进程两种工作模式，默认进程为多进程。�
 常常使用多进程。多进程模型既是 master-worker 进程模型
 
 \noindent\begin{enumerate}
-  \item Nginx 启动后，会产生一个 master 主进程，主进程执行一系列的工作后会产生一个或者多个工作进程 worker
-  \item 在客户端请求动态站点的过程中，Nginx 服务器还涉及和后端服务器的通信。Nginx 将接收到的 Web 请求通过代理转发到后端服务器，由后端服务器进行数据处理和组织
-  \item Nginx 为了提高对请求的响应效率，降低网络压力，采用了缓存机制，将历史应答数据缓存到本地。保障对缓存文件的快速访问
+	\item Nginx 启动后，会产生一个 master 主进程，主进程执行一系列的工作后会产生一个或者多个工作进程 worker
+	\item 在客户端请求动态站点的过程中，Nginx 服务器还涉及和后端服务器的通信。Nginx 将接收到的 Web 请求通过代理转发到后端服务器，由后端服务器进行数据处理和组织
+	\item Nginx 为了提高对请求的响应效率，降低网络压力，采用了缓存机制，将历史应答数据缓存到本地。保障对缓存文件的快速访问
 \end{enumerate}
 
 Nginx的架构设计具有明显的优势：其中的worker进程是并行工作的，彼此之间拥有同等地位。每个worker进程都是通过复制（fork）master进程而生成的。在这一过程中，master进程首先创建了必须监听的socket（即listenfd），接着复制出多个worker进程。这些worker进程共享相同的listenfd，因此新连接建立时，所有worker进程的listenfd都会响应。
@@ -265,10 +265,10 @@ Nginx的架构设计具有明显的优势：其中的worker进程是并行工作
 一旦worker进程接受了连接，它就会开始处理整个请求流程：从读取请求开始，对请求进行解析，执行相关处理，产生响应数据，最终发送给客户端，并在完成所有交互后断开连接。这一连串操作构成了Nginx处理请求的完整周期。具体如下图\ref{nginx_multi_process}所示。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{figures/master-worker.png}
-  \caption{Nginx 多进程工作模式}
-  \label{nginx_multi_process}
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/master-worker.png}
+	\caption{Nginx 多进程工作模式}
+	\label{nginx_multi_process}
 \end{figure}
 
 正是因为Nginx底层采用了eopll（您可能是指epoll）事件驱动模型来实现异步非阻塞IO，这使其能够在极为高效的单进程模型中处理数千甚至数万个并发连接。
@@ -289,9 +289,9 @@ Nginx的架构设计具有明显的优势：其中的worker进程是并行工作
 用一个图片对比正向和反向代理
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/Forward-Proxy-Reverse-Proxy.png}
-  \caption{正向代理与反向代理的对比}
+	\centering
+	\includegraphics[width=\textwidth]{figures/Forward-Proxy-Reverse-Proxy.png}
+	\caption{正向代理与反向代理的对比}
 \end{figure}
 
 Nginx的反向代理功能克服了单一服务器的限制，赋予了其在网络上接受、转发及处理数据的强大能力\cite{马原龙2016nginx}。
@@ -337,9 +337,9 @@ Nginx 自身支持多种负载均衡算法，除了使用源码自带的内置�
 默认轮询算法（Round Robin）的策略是：将请求“依次”分发到候选机器。如下图所示，轮询负载均衡器收到来自客户端的 6 个请求，编号为 1、4 的请求会被发送到服务端 0；编号为 2、5 的请求会被发送到服务端 1；编号为 3、6 的请求会被发送到服务端 2。
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/round-robin.png}
-  \caption{默认情况下的负载均衡算法}
+	\centering
+	\includegraphics[width=\textwidth]{figures/round-robin.png}
+	\caption{默认情况下的负载均衡算法}
 \end{figure}
 
 默认的轮询算法是等值轮询，即按照一比一的比例向不同的服务器节点分发请求，当配置文件
@@ -378,10 +378,10 @@ upstream backend {
 每当负载均衡器向某个节点分配任务时，相应节点的number值便增加1；当任务完成时，则将该值减去1。Nginx会监控这种计数变量的变化，在每次任务分配时选择当前number值最小的服务器，以此来实现任务的平衡分配。此外，最小连接数算法还能与加权连接算法相结合。通过为性能不同的服务器分配不同的初始权重，算法在分发任务请求时将优先考虑连接数与权重比最小的节点，从而选择出最佳的服务器节点。该算法的流程如图\ref{minlinkconnection}所示。
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/least-flowchart.png}
-  \caption{Nginx 最小连接算法}
-  \label{minlinkconnection}
+	\centering
+	\includegraphics[width=\textwidth]{figures/least-flowchart.png}
+	\caption{Nginx 最小连接算法}
+	\label{minlinkconnection}
 \end{figure}
 
 最小连接数算法考虑了服务器实时负载的动态变化，尝试基于连接数的多少来动态选择用于任务分发的服务器，这在一定程度上克服了加权轮询算法中因请求到达时间间隔不一致而导致的负载不均问题。
@@ -398,9 +398,9 @@ upstream backend {
 并且，在迁移过程中，要保证业务平滑过渡，需要使用数据双写等较为复杂的技术手段。
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/hash-algo.png}
-  \caption{Nginx 哈希算法拓扑图}
+	\centering
+	\includegraphics[width=\textwidth]{figures/hash-algo.png}
+	\caption{Nginx 哈希算法拓扑图}
 \end{figure}
 
 Nginx通过使用IP哈希算法增强了客户端请求的处理效率。此算法取来源客户端的IP地址作为关键值（key），运用特定的哈希函数进行计算，然后根据得到的哈希结果将请求定向至集群中的相应服务器进行处理。
@@ -419,9 +419,9 @@ upstream backend {
 IP 哈希算法流程图如下所示。
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/hash-flowchart.png}
-  \caption{Nginx IP 哈希算法流程图}
+	\centering
+	\includegraphics[width=\textwidth]{figures/hash-flowchart.png}
+	\caption{Nginx IP 哈希算法流程图}
 \end{figure}
 
 IP 哈希算法有助于维持用户会话的连续性，原因在于来自同一IP的用户请求将被映射至同一服务器节点处理。

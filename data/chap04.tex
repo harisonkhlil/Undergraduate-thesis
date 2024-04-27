@@ -12,38 +12,38 @@
 提升算法的准确度和动态负载均衡的负载效果。在第二章中已经知道了有哪些负载信息值得挑选和收集，但是没有一个真正的合适的负载综合指标来体现真实的负载情况。
 具体的剩余性能的获取可以使用 Linux 的 proc 文件系统获取，该文件储存在内存里，不会占用外存的空间。
 
-（1）CPU 信息的获取 
+（1）CPU 信息的获取
 
 要获取 Linux 系统中的 CPU 详细使用情况可以使用 cat/proc/stat，CPU 详细使用情况如下表。
 
 \begin{longtblr}[
-  caption = {CPU 详细信息解释},
-]{
-  width = \linewidth,
-  colspec = {Q[102]Q[837]},
-  vline{2} = {-}{},
-  hline{1,9} = {-}{0.08em},
-  hline{2} = {-}{},
-}
-参数      & 解释                                   \\
-user    & 系统从启动到当前时刻，用户态 CPU 时间，不含 nice 值为负的进程 \\
-nice    & 系统从启动到当前时刻，nice 值为负的进程占用的 CPU 时间     \\
-system  & 系统从启动到当前时刻，核心时间                      \\
-idle    & 系统从启动到当前时刻，除硬盘等待外其他等待时间              \\
-iowait  & 系统从启动到当前时刻，硬盘等待时间                    \\
-irq     & 系统从启动到当前时刻，硬中断时间                     \\
-softirq & 系统从启动到当前时刻，软中断时间                     
+	caption = {CPU 详细信息解释},
+	]{
+	width = \linewidth,
+	colspec = {Q[102]Q[837]},
+	vline{2} = {-}{},
+	hline{1,9} = {-}{0.08em},
+			hline{2} = {-}{},
+		}
+	参数      & 解释                                   \\
+	user    & 系统从启动到当前时刻，用户态 CPU 时间，不含 nice 值为负的进程 \\
+	nice    & 系统从启动到当前时刻，nice 值为负的进程占用的 CPU 时间     \\
+	system  & 系统从启动到当前时刻，核心时间                      \\
+	idle    & 系统从启动到当前时刻，除硬盘等待外其他等待时间              \\
+	iowait  & 系统从启动到当前时刻，硬盘等待时间                    \\
+	irq     & 系统从启动到当前时刻，硬中断时间                     \\
+	softirq & 系统从启动到当前时刻，软中断时间
 \end{longtblr}
 
 那么 CPU 利用率的计算公式为：$CPU_{usg} = 1 - (idle_2 - idle_1) / (cpu_2 - cpu_1)$ 通过使用 cat /proc/cpuinfo 命令获取服务器 CPU 配置，然后在 benchmark 上可纯到该 CPU 性能的分数作为 $CPU_{mark}$。则一个节点的 CPU 的剩余性能如下。
 \begin{align}
-  C_{j}=(1-CPU_{usg_{j}})\frac{n^{\ast}CPU_{mark_{j}}}{\sum_{1}^{n}CPU_{mark}}
+	C_{j}=(1-CPU_{usg_{j}})\frac{n^{\ast}CPU_{mark_{j}}}{\sum_{1}^{n}CPU_{mark}}
 \end{align}
 
 （2） 内存信息获取
 获取内存使用情况则可以 cat /proc/meminfo 命令，其中最重要的是 MemFree、Buffers、Cached 三个信息分别是完全空闲的内存大小、缓存文件系统的元数据和跟踪正在读写的块设备、存储页缓存和slabs的内存大小。所以内存使用率的计算方式如下。
 \begin{equation}
-  MEM_{usg} = (1 - MemFree + Buffers + Cached) / MemFree
+	MEM_{usg} = (1 - MemFree + Buffers + Cached) / MemFree
 \end{equation}
 
 （3）磁盘信息获取
@@ -52,21 +52,21 @@ softirq & 系统从启动到当前时刻，软中断时间
 
 % \usepackage{tabularray}
 \begin{longtblr}[
-  caption = {磁盘信息获取},
-]{
-  width = \linewidth,
-  colspec = {Q[81]Q[860]},
-  hlines,
-  vlines,
-  hline{1,8} = {-}{0.08em},
-}
-标示~     & 说明                                                 \\
-Device~ & 监测设备名称                                             \\
-rkB/s~  & 每秒实际读取的大小，单位为KB                                    \\
-wkB/s~  & 每秒实际写入的大小，单位为KB                                    \\
-await~  & 等待I/O平均的时间（milliseconds）                           \\
-svctm~  & I/O需求完成的平均时间                                       \\
-\%util~ & 设备带宽的使用率，达到100\%表示饱和，达到性能瓶颈，如果是支持处理并发请求的设备则不代表性能瓶颈 
+	caption = {磁盘信息获取},
+	]{
+	width = \linewidth,
+	colspec = {Q[81]Q[860]},
+	hlines,
+	vlines,
+	hline{1,8} = {-}{0.08em},
+		}
+	标示~     & 说明                                                 \\
+	Device~ & 监测设备名称                                             \\
+	rkB/s~  & 每秒实际读取的大小，单位为KB                                    \\
+	wkB/s~  & 每秒实际写入的大小，单位为KB                                    \\
+	await~  & 等待I/O平均的时间（milliseconds）                           \\
+	svctm~  & I/O需求完成的平均时间                                       \\
+	\%util~ & 设备带宽的使用率，达到100\%表示饱和，达到性能瓶颈，如果是支持处理并发请求的设备则不代表性能瓶颈
 \end{longtblr}
 
 （4）网络带宽信息获取
@@ -87,20 +87,20 @@ svctm~  & I/O需求完成的平均时间                                       \
 给定标准化后的数据集 $X = [x_1, x_2, \cdots, x_n]^{\mathbf{T}} \in \mathbb{R}^{n \times d}$，其中 $n$ 为样本的数量，$d$ 指标的数量，
 结合在一起，\( X \) 是一个由 \( n \) 个 \( d \)-维的实数向量构成的数据集，并且以矩阵形式表示，其中每一行是一个样本，每一列是一个特征。则数据集的协方差公式矩阵如下。
 \begin{equation}
-  A={\frac{1}{n}}X^{\mathsf{T}}X={\frac{1}{n}}\sum_{i\,=\,1}^{n}x_{i}x_{i}^{\mathsf{T}}=V\Sigma V^{\mathsf{T}}\in\mathbb{R}^{d\cdot d}
+	A={\frac{1}{n}}X^{\mathsf{T}}X={\frac{1}{n}}\sum_{i\,=\,1}^{n}x_{i}x_{i}^{\mathsf{T}}=V\Sigma V^{\mathsf{T}}\in\mathbb{R}^{d\cdot d}
 \end{equation}
 
 对 $\mathbf{A}$ 进行特征分解后得到一组降序排列的特征值$\lambda_1 \ge \lambda_2 ... \ge \lambda_n > 0$ 相对应的单位特征向量 $v_1, v_2, \dots, v_n$。
 其中，特征值越大的，其对应的主成分越重要。于是，综合负载决策函数如下。
 \begin{equation}
-  \mathbf{X} = \mu_1C_{usg} + \mu_2M_{usg} + \mu_3D_{usg} + \mu_4N_{usg}
+	\mathbf{X} = \mu_1C_{usg} + \mu_2M_{usg} + \mu_3D_{usg} + \mu_4N_{usg}
 \end{equation}
 
 通过指定欲保留的主成分比重阈值 $\theta \in (0, 1]$ 来确定目标唯独 k 的大小。
 具TCN 模型参数组合体来说$\k$可以通过 $\frac{\sum^{k}_{i = 1}\lambda_i}{\sum^{d}_{i = 1}\lambda_i} \ge \theta$ 来得到。
 取前 $k$ 个特征值对应的特征向量组成的主成分空间$\mathbb{V}_{d \times k} = (v_1, v_2, \cdots, v_k)$。将标准化后的原始数据集$\mathbf{X}_{n \times d}$ 投影到由前 $k$ 个特征向量构成的主成分空间 $\mathbf{V}_{d \times k}$中，得到了降维后的 $k$ 维数据集。
 \begin{equation}
-  \mathbf{Z}_{n \times k} = \mathbf{X}_{n \times d}\mathbf{V}_{d \times k}
+	\mathbf{Z}_{n \times k} = \mathbf{X}_{n \times d}\mathbf{V}_{d \times k}
 \end{equation}
 
 在这个公式中，$\mathbf{X}_{n \times d}$ 表示标准化后的原始数据集，其中 $n$ 是样本数，$d$ 是原始特征数。$\mathbf{V}_{d \times k}$ 包括了前 $k$ 个特征值对应的特征向量（这些特征向量通常是按照特征值大小从大到小排列的），它们构成了主成分空间。这个空间的维度（$k$）通常远小于原始特征空间的维度（$d$）。
@@ -123,9 +123,9 @@ svctm~  & I/O需求完成的平均时间                                       \
 时间卷积网络需要的数据集和RNN 有一定的类似，在处理时间序列数据集时都要进行嵌入（Embedding）操作。Embedding的主要目的是将时序数据映射到一个稠密的连续向量空间中，使得相似的语义信息在该向量空间中也能够彼此接近。这样，神经网络就可以基于这些向量表示学习到输入数据的复杂语义信息，并在相似的向量表示之间进行泛化。图是具体的嵌入过程。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.7\textwidth]{figures/embedding.png}
-  \caption{原始时序序列嵌入生成向量}
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/embedding.png}
+	\caption{原始时序序列嵌入生成向量}
 \end{figure}
 
 TCN所依赖的卷积操作在本质上就是一维卷积（1D-CNN）。一维卷积利用多个大小固定的卷积核与输入序列进行卷积运算来生成输出序列。卷积核的形状由输入通道数$in\_channels$ 和卷积核大小$kernel\_size$ 共同决定，卷积核的数量则由输出通道数$out\_channels$决定。
@@ -134,9 +134,9 @@ TCN所依赖的卷积操作在本质上就是一维卷积（1D-CNN）。一维�
 假设有一个时间序列，总共有五个时间点，比方说股市，有一个股票的价格波动：[10,13,12,14,15]。TCN 使用一个卷积大小为 2 的卷积核，对上面5个数据做一个卷积核大小为2的卷积是什么样子如下。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=.9\textwidth]{figures/convolution_1.png}
-  \caption{卷积核为2的卷积过程}
+	\centering
+	\includegraphics[width=.9\textwidth]{figures/convolution_1.png}
+	\caption{卷积核为2的卷积过程}
 \end{figure}
 
 五个数据经过一次卷积，可以变成四个数据，
@@ -144,9 +144,9 @@ TCN所依赖的卷积操作在本质上就是一维卷积（1D-CNN）。一维�
 所以TCN进行了额外的裁剪操作。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.9\textwidth]{figures/convolution_2.png}
-  \caption{padding 后的卷积}
+	\centering
+	\includegraphics[width=0.9\textwidth]{figures/convolution_2.png}
+	\caption{padding 后的卷积}
 \end{figure}
 
 padding是左右两头都增加0，如果padding是1的话，就是上图的效果，其实会产生6个新数据，但是秉着：“输入输出尺寸相同”和“我们不能知道未来的数据”，所以最后边那个未来的padding，就省略掉了，之后会在代码中会体现出来。
@@ -155,12 +155,12 @@ padding是左右两头都增加0，如果padding是1的话，就是上图的效�
 通过使用因果卷积满足原则二，因果卷积是一种只考虑过去时间状态的一维卷积操作。因果卷积的具体步骤如下图所示。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/causal_convolution.png}
-  \caption{因果卷积}
+	\centering
+	\includegraphics[width=\textwidth]{figures/causal_convolution.png}
+	\caption{因果卷积}
 \end{figure}
 
-图中可以看到，因果卷积具备了两个特点。只考虑过去的信息。 时刻的输出$y_t$ 仅依赖于 $x_0，...，x_t$ ，而不依赖任何“未来”的输入$x_{t+1}，...，x_T$。
+图中可以看到，因果卷积具备了两个特点。只考虑过去的信息。 时刻的输出$y_t$ 仅依赖于 $x_0\text{，} \dots \text{，}x_t$ ，而不依赖任何“未来”的输入$x_{t+1} \text{，} \dots \text{，}x_T$。
 同时追溯历史信息越久远，隐藏层越多。 图中，输出层期望采集输入层的4个时间步，则需要2个隐藏层。而业务的需求往往要求采取更多的时间步，确实是“深度”学习了。
 
 由于因果卷积没有循环连接，它们通常比循环神经网络（RNN）训练速度更快，尤其是应用于非常长的序列。
@@ -176,9 +176,9 @@ padding是左右两头都增加0，如果padding是1的话，就是上图的效�
 当dilation rate等于2时,膨胀因果卷积的示意图展示了这一过程。通过在卷积核中注入"空洞",卷积操作可以跳过一些输入元素,覆盖更广的范围,同时保留因果性质,即当前输出仅依赖于当前时刻及之前的输入。这种方式能够以更少的参数和更少的层数建模长距离依赖,提升了时间序列建模的效率和精度。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/dilation_convolution.png}
-  \caption{dilation=1 的膨胀因果卷积}
+	\centering
+	\includegraphics[width=\textwidth]{figures/dilation_convolution.png}
+	\caption{dilation=1 的膨胀因果卷积}
 \end{figure}
 
 图中，可以看到卷积核大小依然是2，但是卷积核之间变得空洞了，每2个点采样一个作为输入；
@@ -190,9 +190,9 @@ padding的数值在卷积核是2的情况下等于dalition的数值。
 以输入中的第一个元素作为空洞因果卷积的最后一个元素，则它的左边需要padding的个数为$(kernel_size-1) \times dilation$。于是较为完备的 TCN 训练网络如下。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/tcn_1.png}
-  \caption{TCN 训练网络骨干}
+	\centering
+	\includegraphics[width=\textwidth]{figures/tcn_1.png}
+	\caption{TCN 训练网络骨干}
 \end{figure}
 
 从图中可以看到，每一层$t$ 时刻的值只依赖于上一层 $t, t - 1, \dots$ 时刻的值，体现了因果卷积的原则。而每一层对上一层信息的提取，都是跳跃式的，且逐层 dilated rate 以 2 的指数增长，体现了空洞卷积的特性。同时由于采用了空洞卷积，因此每一个隐藏层都需要做 padding，padding 的大小为 $padding = (kernel_size - 1)$。
@@ -206,10 +206,10 @@ padding的数值在卷积核是2的情况下等于dalition的数值。
 因此,解决网络退化问题的关键是让网络的冗余层能够产生恒等映射,使深层网络等价于浅层网络。为此,残差模块应运而生,成功解决了网络退化问题,并在图像识别领域取得了突破性进展。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.5\textwidth]{figures/residual_block.png}
-  \caption{残差模块}
-  \label{residual_block}
+	\centering
+	\includegraphics[width=0.5\textwidth]{figures/residual_block.png}
+	\caption{残差模块}
+	\label{residual_block}
 \end{figure}
 
 在通常情况下，要使网络层学习到恒等映射函数 $H(x) = x$ 是有一定难度的。但是，通过将网络函数定义为 $H(x) = F(x) + x$ 可以将恒等映射转化为残差函数 $F(x) = H(x) - x$。 这意味着，只要  $F(x) = 0$，就构成了一个恒等映射 $H(x) = x$。在图\ref{residual_block}中，
@@ -219,10 +219,10 @@ padding的数值在卷积核是2的情况下等于dalition的数值。
 如果维度不同则 $F(x)=W_2σ(W_1x+b_1)+b_2\text{，}H(x)=F(x)+W_sx$。虽然残差模块刚开始是基于全连接层的表示，实际上残差模块可以用于卷积层。加法变为 channel 间的两个 feature map 逐个元素相加。下图\ref{residual_tcn}是时间卷积网络的残差模块。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/resiual_tcn.png}
-  \caption{TCN 的残差模块设计}
-  \label{residual_tcn}
+	\centering
+	\includegraphics[width=\textwidth]{figures/resiual_tcn.png}
+	\caption{TCN 的残差模块设计}
+	\label{residual_tcn}
 \end{figure}
 
 于是整体的思路已经清晰，首先对时序数据集进行嵌入，嵌入使用指定大小的卷积核设置指定的膨胀因数，开始进行训练，进行归一向量化，和 ReLU 激活函数 Dropout 池化来防止梯度爆炸，最后用一个 Resnet 残差连接来避免梯度消失。
@@ -286,21 +286,21 @@ done
 
 % \usepackage{tabularray}
 \begin{longtblr}[
-  caption = {TCN 模型参数组合},
-]{
-  width = \linewidth,
-  colspec = {Q[177]Q[158]Q[165]Q[183]Q[158]Q[160]},
-  vline{4} = {-}{},
-  vline{4} = {2}{-}{},
-  hline{1,8} = {-}{0.08em},
-}
-序号 & $d$ & $K$ & 序号 & $d$ & $K$ \\
-1  & 2     & 1x3   & 7  & 8     & 1x3   \\
-2  & 2     & 1x5   & 8  & 8     & 1x5   \\
-3  & 2     & 1x7   & 9  & 8     & 1x7   \\
-4  & 4     & 1x3   & 10 & 16    & 1x3   \\
-5  & 4     & 1x5   & 11 & 16    & 1x5   \\
-6  & 4     & 1x7   & 12 & 16    & 1x7   
+	caption = {TCN 模型参数组合},
+	]{
+	width = \linewidth,
+	colspec = {Q[177]Q[158]Q[165]Q[183]Q[158]Q[160]},
+	vline{4} = {-}{},
+	vline{4} = {2}{-}{},
+	hline{1,8} = {-}{0.08em},
+		}
+	序号 & $d$ & $K$ & 序号 & $d$ & $K$ \\
+	1  & 2   & 1x3 & 7  & 8   & 1x3 \\
+	2  & 2   & 1x5 & 8  & 8   & 1x5 \\
+	3  & 2   & 1x7 & 9  & 8   & 1x7 \\
+	4  & 4   & 1x3 & 10 & 16  & 1x3 \\
+	5  & 4   & 1x5 & 11 & 16  & 1x5 \\
+	6  & 4   & 1x7 & 12 & 16  & 1x7
 \end{longtblr}
 
 通过使用不同参数的 TCN 模型可以得到 MAE（平均绝对误差）即观测值与预测值绝对差的平均值、RMSE（均方根误差)即观测值与预测值差的平方的平均值的平方根。来确定最佳参数。 通过指定训练参数 epoch 以及 lr 来获得预测值，在通过与观测值的比较即可选择到较好的模型参数。

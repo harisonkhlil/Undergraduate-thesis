@@ -17,13 +17,13 @@
 该算法在分配任务时使用了四个关键变量来记录上游集群服务器节点的权重状态，这些变量分别是：weight、effective\_weight、total 和 current\_weight。
 
 \noindent\begin{longtblr}
-  [caption = {加权轮询算法变量及描述}]
-  {hlines, colspec = {|X[1, c]|X[2, c]|}}
-  变量 & 描述 \\
-  weight & 初始权值，固定不变 \\
-  effective\_weight & 发生错误，权值减小 \\
-  total & 集群服务器权值总和 \\
-  current\_weight & 实时权值，初始为零 \\
+	[caption = {加权轮询算法变量及描述}]
+	{hlines, colspec = {|X[1, c]|X[2, c]|}}
+	变量                & 描述        \\
+	weight            & 初始权值，固定不变 \\
+	effective\_weight & 发生错误，权值减小 \\
+	total             & 集群服务器权值总和 \\
+	current\_weight   & 实时权值，初始为零 \\
 \end{longtblr}
 
 在一个请求的处理周期中，负载均衡器会尝试将每个上游服务器节点的 current\_weight 增加其对应的 effective\_weight，
@@ -33,10 +33,10 @@ Nginx 使用两种状态标志以表示过程的结果——NGX\_OK 表示已成
 加权轮询算法详细流程如下图\ref{weight_round}所示。
 
 \begin{figure}[htb]
-  \centering
-  \includegraphics[width=\textwidth]{figures/round-flowchart.png}
-  \caption{Nginx 加权轮询算法流程图}
-  \label{weight_round}
+	\centering
+	\includegraphics[width=\textwidth]{figures/round-flowchart.png}
+	\caption{Nginx 加权轮询算法流程图}
+	\label{weight_round}
 \end{figure}
 
 加权轮询算法，虽然考虑了上游服务器节点的不同性能差异，执行效率较高，节点选择频次相对平滑，
@@ -49,17 +49,17 @@ Nginx 使用两种状态标志以表示过程的结果——NGX\_OK 表示已成
 为了克服这一缺陷并优化负载的平滑性，研究者提出了平滑加权轮询（Smooth Weighted Round-Robin, SWRR）调度算法。相比于常规的加权轮询，SWRR算法在分发请求时更为细致地平衡了实例间的负载，旨在避免任何单一实例的瞬时过载现象。在 Nginx 中，SWRR算法通过其精巧设计的流程图，如图\ref{pinghualunxun} 所示，确保了在处理并发请求时的均衡分配，进而减少了系统宕机的风险。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=.8\textwidth]{figures/smooth_weight.png}
-  \caption{Nginx 内置平滑轮询算法流程图}
-  \label{pinghualunxun}
+	\centering
+	\includegraphics[width=.8\textwidth]{figures/smooth_weight.png}
+	\caption{Nginx 内置平滑轮询算法流程图}
+	\label{pinghualunxun}
 \end{figure}
 
 为了证明平滑性，只要证明不要一直都是连续选择那一个节点即可。假设总权重为 S，假如某个节点 i 连续选择了 t（$t < x_i$） 次，只要存在下一次选择的不是节点 i，即可证明是平滑的。
 
 假设 $t = x_i - 1$，此时第 i 个结点的当前权重为 $w_i = t \* x_i - t \* S = (x_i - 1) \* x_i - (x_i - 1) \* S$。即证明下一轮的第 1 步执行完的值 $w_i + x_i$ 不是最大。
 \begin{equation}
-  w_i + x_i => (x_i - 1) \* x_i - (x_i - 1) \* S + x_i =>x_i^2 - x_i \* S + S => (x_i - 1) \* (x_i - S) + x_i
+	w_i + x_i => (x_i - 1) \* x_i - (x_i - 1) \* S + x_i =>x_i^2 - x_i \* S + S => (x_i - 1) \* (x_i - S) + x_i
 \end{equation}
 
 因为 $x_i$ 恒小于 S，所以 $x_i - S <= -1$。所以上面：$(x_i - 1) \* (x_i - S) + x_i <= (x_i - 1) \* -1 + x_i = -x_i + 1 + x_i = 1$。所以第 t 轮后，再执行完第 1 步的值 $w_i + x_i <= 1$。如果这 t 轮刚好是最开始的 t 轮，则必定存在另一个结点 j 的值为 $x_j \* t$，所以有 $w_i + x_i <= 1 < 1 \* t < x_j \* t$。所以下一轮肯定不会选中 i。
@@ -77,10 +77,10 @@ Nginx 使用两种状态标志以表示过程的结果——NGX\_OK 表示已成
 系统的整体结构设计旨在实现高效、灵活的负载均衡，以优化资源利用率和响应性能。其框架如下图所示(请见图\ref{total_structure_flow})。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/landbalance_module.png}
-  \caption{总体结构图}
-  \label{total_structure_flow}
+	\centering
+	\includegraphics[width=\textwidth]{figures/landbalance_module.png}
+	\caption{总体结构图}
+	\label{total_structure_flow}
 \end{figure}
 
 当客户端用户发起 HTTP 请求时，该请求被发送至 Nginx 服务器。Nginx 服务器根据其配置的负载均衡策略选择集群中的一台服务器节点，进而将客户端请求转发至该节点。
@@ -88,10 +88,10 @@ Nginx 使用两种状态标志以表示过程的结果——NGX\_OK 表示已成
 在此流程中，采用了改进后的平滑动态加权轮询算法，以优化请求的分发和处理效率，确保系统负载均衡。该算法的详细流程展示在下图中（详见图\ref{new_smoth_weight_balance}）。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/new_smoth_weight_balance.jpg}
-  \caption{改进后的平滑加权轮询算法流程图}
-  \label{new_smoth_weight_balance}
+	\centering
+	\includegraphics[width=\textwidth]{figures/new_smoth_weight_balance.jpg}
+	\caption{改进后的平滑加权轮询算法流程图}
+	\label{new_smoth_weight_balance}
 \end{figure}
 
 改进后的算法由两个阶段构成：第一个阶段是没有预测负载指标的情况，第二个阶段则是已有预测负载指标的情况。一开始，由于缺少适当的数据，算法通过周期性处理模块分析当前服务的访问量和服务器负载状况，此时采用常规的平滑加权轮询算法执行初始任务分配。
@@ -100,7 +100,7 @@ Nginx 使用两种状态标志以表示过程的结果——NGX\_OK 表示已成
 紧接着，将每个节点的负载数据送至服务器信息处理模块和周期性预测模块进行数学分析，通过特定公式计算得到每个节点的总体负载情况。
 根据设定的阈值来判断节点是否平衡，若不平衡则更新其权重数据。一旦节点权重分析完成，Nginx 的平滑加权轮询模块即可获取更新后的权重信息。
 
-随后进行服务器配置及权重的初始化操作，初始化完成后，通过 nginx\_http\_upstream\_get\_dynlb\_select\_peer 
+随后进行服务器配置及权重的初始化操作，初始化完成后，通过 nginx\_http\_upstream\_get\_dynlb\_select\_peer
 函数选出所有可用上游服务器中 current\_weight 最高的服务器来处理请求。
 若所有节点都不符合条件，则默认回落到 Nginx 自身的轮询算法。请求处理完毕之后，调用 ngx\_http\_upstream\_free\_dynlb\_select\_peer 以释放系统资源，以此提升算法效率。
 第二阶段基本与第一阶段相似，但是在阈值设定和初始权重调整方面会有所区别，加入了周期性预测后的访问量权重考虑和综合负载指标权重预测的考虑。
@@ -114,70 +114,70 @@ Nginx 使用两种状态标志以表示过程的结果——NGX\_OK 表示已成
 首先，需要构建出层次分析模型。将综合负载指标作为目标层，CPU、内存、网络带宽以及磁盘IO利用率指标作为准则层，层次分析模型结构如下图\ref{Layered_Analysis}所示。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/Layered_Analysis.jpg}
-  \caption{综合负载层次分析模型}
-  \label{Layered_Analysis}
+	\centering
+	\includegraphics[width=\textwidth]{figures/Layered_Analysis.jpg}
+	\caption{综合负载层次分析模型}
+	\label{Layered_Analysis}
 \end{figure}
 
 采用 “1-9” 标度法，结合服务器测试情况构建判断矩阵。根据论文得知，CPU、内存利用率较高，而网络带宽与磁盘IO利用率相对较低\cite{吴陈2020基于Nginx的服务器集群负载均衡策略的研究与改进}。服务器对资源消耗标度表如下。
 
 % \usepackage{tabularray}
 \begin{longtblr}[
-  caption = {服务器对资源消耗情况},
-]{
-  width = \linewidth,
-  colspec = {Q[146]Q[331]Q[331]Q[113]Q[79]},
-  vline{2-5} = {-}{},
-  hline{1,6} = {-}{0.08em},
-  hline{2} = {-}{},
-}
-Q   & CPU                                & Mem                                & Net & IO \\
-CPU & 1                                  & 1                                  & 3   & 3  \\
-Mem & 1                                  & 1                                  & 3   & 3  \\
-Net & $\frac{1}{3}$ & $\frac{1}{3}$ & 1   & 1  \\
-IO  & $\frac{1}{3}$ & $\frac{1}{3}$ & 1   & 1  
+	caption = {服务器对资源消耗情况},
+	]{
+	width = \linewidth,
+	colspec = {Q[146]Q[331]Q[331]Q[113]Q[79]},
+	vline{2-5} = {-}{},
+	hline{1,6} = {-}{0.08em},
+			hline{2} = {-}{},
+		}
+	Q   & CPU           & Mem           & Net & IO \\
+	CPU & 1             & 1             & 3   & 3  \\
+	Mem & 1             & 1             & 3   & 3  \\
+	Net & $\frac{1}{3}$ & $\frac{1}{3}$ & 1   & 1  \\
+	IO  & $\frac{1}{3}$ & $\frac{1}{3}$ & 1   & 1
 \end{longtblr}
 
 于是，得到了判断矩阵：
 \begin{equation}
-  Q = \begin{bmatrix}
-  1&  1&  3& 3\\
-  1&  1&  3& 3\\
-  1/3&  1/3&  1& 1\\
-  1/3&  1/3&  1&1
-\end{bmatrix}
+	Q = \begin{bmatrix}
+		1   & 1   & 3 & 3 \\
+		1   & 1   & 3 & 3 \\
+		1/3 & 1/3 & 1 & 1 \\
+		1/3 & 1/3 & 1 & 1
+	\end{bmatrix}
 \end{equation}
 
 按照层次分析法的要求，得到了判断矩阵，通过合积法计算其近似特征向量。首先将矩阵（5.2）按照公式（5.3），再按列相加再做归一化，归一化的元素按行相加得到的结果处理后如下表所示。
 \begin{equation}
-  q_{ij}= \frac{q_{ij}}{\sum_{i=1}^{n}q_{ij} }(i,j = 1,2,\dots ,n)
+	q_{ij}= \frac{q_{ij}}{\sum_{i=1}^{n}q_{ij} }(i,j = 1,2,\dots ,n)
 \end{equation}
 
 % \usepackage{tabularray}
 \begin{longtblr}[
-  caption = {对比表},
-]{
-  width = \linewidth,
-  colspec = {Q[167]Q[179]Q[179]Q[179]Q[179]Q[113]},
-  vlines,
-  hline{1,6} = {-}{0.08em},
-  hline{2} = {-}{},
-}
-Q   & CPU   & Mem   & Net   & IO    & ∑   \\
-CPU & 0.375 & 0.375 & 0.375 & 0.375 & 1.5 \\
-Mem & 0.375 & 0.375 & 0.375 & 0.375 & 1.5 \\
-Net & 0.125 & 0.125 & 0.125 & 0.125 & 0.5 \\
-IO  & 0.125 & 0.125 & 0.125 & 0.125 & 0.5 
+	caption = {对比表},
+	]{
+	width = \linewidth,
+	colspec = {Q[167]Q[179]Q[179]Q[179]Q[179]Q[113]},
+	vlines,
+	hline{1,6} = {-}{0.08em},
+			hline{2} = {-}{},
+		}
+	Q   & CPU   & Mem   & Net   & IO    & ∑   \\
+	CPU & 0.375 & 0.375 & 0.375 & 0.375 & 1.5 \\
+	Mem & 0.375 & 0.375 & 0.375 & 0.375 & 1.5 \\
+	Net & 0.125 & 0.125 & 0.125 & 0.125 & 0.5 \\
+	IO  & 0.125 & 0.125 & 0.125 & 0.125 & 0.5
 \end{longtblr}
 
 对上表自左向右最后一列元素进行归一化处理之后，即可得到特征向量 $M'=(M_1, M_2, M_3,\dots,M_n)^\mathbf{T}$的近似特征向量 $M'$。
 \[
-  M' = (0.375, 0.375, 0.125, 0.125)
+	M' = (0.375, 0.375, 0.125, 0.125)
 \]
 于是初始阶段的权重已经确定，则初期阶段综合负载决策函数为：
 \begin{equation}
-  X = 0.375\times(CPU) + 0.375 \times (Mem) + 0.125 \times (Net) + 0.125\times(IO)
+	X = 0.375\times(CPU) + 0.375 \times (Mem) + 0.125 \times (Net) + 0.125\times(IO)
 \end{equation}
 
 当节点的资源使用率达到了系统的瓶颈时，节点处理任务请求的效率就会明显下降，那么负载均衡器分配给节点的权重值就会减少。
@@ -192,19 +192,19 @@ Siege 能够根据预设置的配置，模拟多用户并发访问网站，同�
 
 % \usepackage{tabularray}
 \begin{longtblr}[
-  caption = {企业与任务类型},
-]{
-  width = \linewidth,
-  colspec = {Q[323]Q[408]Q[146]},
-  vline{3} = {-}{},
-  hline{1,6} = {-}{0.08em},
-  hline{2} = {-}{},
-}
-企业类型  & 并发量          & 任务 \\
-小型企业  & 500-1000     & 文本 \\
-中型企业  & 1000-5000    & 图片 \\
-大型企业  & 10000-100000 & 音频 \\
-超大型企业 & 100000-      & 视频 
+	caption = {企业与任务类型},
+	]{
+	width = \linewidth,
+	colspec = {Q[323]Q[408]Q[146]},
+	vline{3} = {-}{},
+	hline{1,6} = {-}{0.08em},
+			hline{2} = {-}{},
+		}
+	企业类型  & 并发量          & 任务 \\
+	小型企业  & 500-1000     & 文本 \\
+	中型企业  & 1000-5000    & 图片 \\
+	大型企业  & 10000-100000 & 音频 \\
+	超大型企业 & 100000-      & 视频
 \end{longtblr}
 siege 的测试命令如下。
 \noindent \begin{lstlisting}[caption={siege 的测试命令}]
@@ -236,10 +236,10 @@ http://192.168.66.166/06.mp4
 下方的图表（图\ref{tcp_reno}）详细展示了拥塞控制窗口和传输轮次之间的对应关系，以及改进之后的 TCP Reno 算法的具体变化。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{figures/tcp_reno.png}
-  \caption{TCP Reno 的 cwnd 变化}
-  \label{tcp_reno}
+	\centering
+	\includegraphics[width=\textwidth]{figures/tcp_reno.png}
+	\caption{TCP Reno 的 cwnd 变化}
+	\label{tcp_reno}
 \end{figure}
 
 TCP Reno 在 Tahoe 的基础上增加了快速恢复机制即快重传机制。在 Reno 中，当收到三个重复的 ACK 时（表示一个单一的数据包丢失），它不会像 Tahoe 那样直接进入慢启动阶段，而是进入快速恢复阶段。在这个阶段，它将阈值设为当前 cwnd 的一半，并将 cwnd 设置为新阈值加3个段的大小，然后进行拥塞避免算法。如果又出现超时，则会和 Tahoe 一样，将 cwnd 设为1，重新开始慢启动过程。Reno 的这种机制可以在某些丢包情况下避免 cwnd 的大幅度减少，使得网络能够更快地恢复到有效的传输状态。从而使的负载均衡节点更有效的调整节点的权重
@@ -251,10 +251,10 @@ TCP Reno 在 Tahoe 的基础上增加了快速恢复机制即快重传机制。�
 如果在此过程中权重达到初始权重值，权重增长将停止。然而，如果该节点在下一时期再次被判断为高负载状况，则将再次调整权重。在节点权重信息调整过程中，权重值会持续更新并记录在 Memcached 中。高负载节点权重调整的流程图如图\ref{contral_weight}所示。
 
 \begin{figure}[htbp]
-  \centering
-  \includegraphics[width=.9\textwidth]{figures/change_weight.png}
-  \caption{基于拥塞控制思想的权重调整流程}
-  \label{contral_weight}
+	\centering
+	\includegraphics[width=.9\textwidth]{figures/change_weight.png}
+	\caption{基于拥塞控制思想的权重调整流程}
+	\label{contral_weight}
 \end{figure}
 
 \section{本章总结}
