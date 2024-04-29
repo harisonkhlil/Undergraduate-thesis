@@ -247,7 +247,7 @@ echo "Timestamp,CPU_Usage,Mem_Usage,Disk_Read,Disk_Write,Network_In,Network_Out"
 # 设置网络接口名称
 NETWORK_INTERFACE="eth0"
 
-# 捕获信号，以便优雅地退出
+# 捕获信号，以便于退出
 trap "echo 'Script terminated'; exit" SIGHUP SIGINT SIGTERM
 
 # 开始收集数据
