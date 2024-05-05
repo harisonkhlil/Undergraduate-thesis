@@ -169,7 +169,7 @@
 \def\zzu@ckeywords@separator{；}
 \def\zzu@ekeywords@separator{; }
 \newcommand{\zzu@ckeywords@title}{关键词：}
-\newcommand{\zzu@ekeywords@title}{Key words:\enskip}
+\newcommand{\zzu@ekeywords@title}{Keywords:\enskip}
 \newcommand{\zzu@denotation@name}{主要符号对照表}
 \newcommand{\zzu@ackname}{致谢}
 \newcommand{\zzu@review@title}{综述}
