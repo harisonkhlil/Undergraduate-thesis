@@ -7,36 +7,35 @@
 %%================================================
 \begin{cabstract}
 
-随着互联网的飞速发展,网络信息量呈爆炸式增长。互联网实现了全球信息共享,极大地促进了信息交流的速度和自由度。然而,用户数量的急剧上升也导致网站访问量暴增,给网络服务器带来了巨大压力,对服务器性能提出了更高要求。如何解决大量Web高并发访问给后台服务器造成的压力问题,已成为亟待攻克的难题。
+	在互联网技术迅速发展的今天，网络信息的增长呈现出爆炸式的趋势。这一进步不仅实现了全球信息的共享，也显著提高了信息交流的速度和自由度。尽管如此，用户数目的快速增长引发了网站访问量的激增，给网络服务器造成了极大压力，对服务器性能的要求也随之提高。解决Web高并发访问导致的后台服务器压力，已经成为一个亟需解决的挑战。
 
-服务器集群系统和负载均衡技术的出现,在一定程度上缓解了这一问题。这些技术一方面优化了服务器性能,另一方面大幅降低了性能优化所需的成本。目前,服务器上应用了多种负载均衡技术,但某些分配策略仍存在不足之处。繁忙的服务器在处理任务的同时可能还要接收大量访问请求,而部分服务器却处于空闲状态未被分配任务。这种现象会影响整个服务器集群对高并发访问的响应速度,降低用户体验。
+	随着服务器集群系统和负载均衡技术的出现，它们在一定程度上缓和了这一压力。这些解决方案优化了服务器性能的同时，还大大减少了性能优化的成本。虽然目前服务器已经发明实现了多种负载均衡技术，但一些分配策略还是存在不足，如在服务器繁忙时仍需处理大量请求的同时，其他服务器却可能闲置。这不仅影响企业的成本，也可能影响了用户体验。
 
-针对传统负载均衡算法只能被动响应,无法主动防御访问量激增导致服务器集群性能下降甚至宕机的问题，本文研究了基于 Nginx 高并发服务器的负载均衡算法，其主要工作如下：
+	本研究围绕传统负载均衡算法的局限，它们通常只能被动响应，无法主动预防由访问量激增引起的服务器性能下降，甚至是宕机。因此，本文提出了基于Nginx服务器的负载均衡算法，主要贡献包括：
 
-（1）基于服务器网站访问量的时间序列预测研究。主要工作，对传统负载均衡算法只能被动，不能主动进行防御的缺陷，其访问量激增导致的服务器集群性能下降甚至宕机的问题，通过使用数学分析和机器学习算法对网站未来访问量进行预测，根据预测结果对服务器节点进行调整，提升集群的稳定性。并利用 Kaggle 比赛“Web Traffic Time Series Forcasting”所提供的网站访问量数据集，对数据进行分析和预测，并通过两个模型的对比，确定了合适的预测模型，赋予负载均衡算法主动预测和调整的能力。
+	（1）基于时间序列的网站访问量预测研究，用以提前预判访问量的变化趋势，并据此调整服务器节点，增强集群稳定性。本文利用Kaggle“Web Traffic Time Series Forcasting”比赛提供的数据集进行分析和预测，通过对比不同模型，确定了最适宜的预测模型，赋予负载均衡算法主动预测和调整的能力。。
 
-（2）对服务器集群各个节点在一天内的总体综合负载指标变化趋势进行预测。选取能够综合反映负载情况的合适指标。在各个节点持续收集负载信息数据,并将获得的数据进行分析,生成时间序列样本。使用卷积神经网络建立综合负载预测模型。并将其预测结果作为后面负载均衡策略中权重调整的依据。
+	（2）预测服务器集群各节点的综合负载指标。选定能全面体现负载状况的指标，不断收集这些数据，并采用卷积神经网络构建预测模型，使用预测结果来指导负载均衡策略中的权重调整。
 
-（3）基于 Nginx 高并发访问的负载均衡的改进。针对Nginx服务器传统负载均衡无法获取服务器节点真实负载情况的局限，提出了一种改进的动态负载均衡算法对用户的任务进行合理的权重分配。创新性地采用两阶段方法,解决神经网络初期数据缺乏的问题，同时保证了集群的稳定运行。另一个阶段采用了对节点的综合负载指标预测结果来判断是否调整某个服务器当前的权重。
-参考了TCP拥塞控制的原理，来对各个服务器节点的权重进行调整，从而达到调整节点负载状态的目的。
+	（3）提出了基于真实负载情况的Nginx服务器负载均衡算法的改进策略，合理分配用户任务。创新性地使用了两阶段方法以解决神经网络初期数据缺乏的问题，并确保集群的稳定运行。同时，根据TCP拥塞控制的原理调整服务器节点权重，优化节点负载状况。
 
 \end{cabstract}
 
-\ckeywords{Nginx, 时间卷积网络, 负载均衡，时间序列预测算法}
+\ckeywords{Nginx, 时间卷积网络, 负载均衡，时间序列}
 
-\begin{eabstract} 
-With the rapid development of the Internet, the amount of information on the Internet is growing explosively. The Internet has realised the global information sharing, which has greatly promoted the speed and freedom of information exchange. However, the sharp rise in the number of users has also led to a surge in the number of website visits, which puts enormous pressure on the web server and puts higher requirements on server performance. How to solve the problem of high concurrent access to a large number of Web backend servers caused by the pressure, has become an urgent problem to overcome.
+\begin{eabstract}
 
-The emergence of server clustering systems and load balancing technology, to a certain extent, to alleviate this problem. These technologies optimise server performance on the one hand, and on the other hand, significantly reduce the cost of performance optimisation. Currently, a variety of load balancing techniques are used on servers, but some distribution strategies are still inadequate. Busy servers may receive a large number of access requests while processing tasks, while some servers are idle and not assigned tasks. This phenomenon affects the response speed of the entire server cluster to highly concurrent accesses and degrades the user experience.
-    
-Aiming at the traditional load balancing algorithm that can only respond passively and cannot actively prevent the problem of server cluster performance degradation or even downtime caused by access surge, this paper researches the load balancing algorithm based on Nginx highly concurrent servers, and its main work is as follows:
-    
-(1) Time series prediction research based on server website visits. The main work, the traditional load balancing algorithm can only be passive, can not actively defend the defects of its access to the surge caused by the server cluster performance degradation and even downtime, through the use of mathematical analysis and machine learning algorithms to predict the future access to the site, according to the prediction results of the server nodes adjusted to improve the stability of the cluster. The data is analysed and predicted by using the website traffic data set provided by the Kaggle competition "Web Traffic Time Series Forcasting", and through the comparison of the two models, a suitable prediction model is determined, which gives the load balancing algorithm the ability to proactively predict and adjust. (2) Analyse and predict the data of each server cluster.
-    
-(2) Predicting the trend of the overall comprehensive load indicators of each node of the server cluster within a day. Select appropriate indicators that can comprehensively reflect the load situation. Continuously collect load information data at each node, analyse the obtained data, and generate time series samples. Use convolutional neural network to build a comprehensive load prediction model. The prediction results are used as the basis for adjusting the weights in the load balancing strategy.
-    
-(3) Improvement of load balancing based on Nginx high concurrent access. Aiming at the limitation that the traditional load balancing of Nginx server cannot obtain the real load situation of server nodes, an improved dynamic load balancing algorithm is proposed to allocate reasonable weights to users' tasks. A two-phase approach is innovatively adopted to solve the problem of lack of data at the initial stage of neural network, and at the same time ensure the stable operation of the cluster. The other stage adopts the prediction result of the comprehensive load index of the nodes to judge whether to adjust the current weight of a server or not.
-The principle of TCP congestion control is referenced to adjust the weight of each server node to achieve the purpose of adjusting the node load state.
+	In the context of rapid development of Internet technology today, the growth of online information exhibits an explosive trend. This progress has not only realized the sharing of global information but has significantly enhanced the speed and freedom of information exchange. Nonetheless, the rapid increase in the number of users has triggered a surge in website traffic, placing immense pressure on network servers, thereby elevating the performance requirements for these servers. Addressing the pressure on backend servers caused by high concurrent access to web services has become an urgent challenge.
+
+	With the emergence of server cluster systems and load balancing technology, they have, to a certain extent, alleviated this pressure. These solutions optimize server performance while significantly reducing the cost of performance optimization. Although a variety of load balancing technologies have already been developed, some distribution strategies still have deficiencies, such as having to handle a large number of requests during peak server times while other servers may remain idle. This not only affects the cost to businesses but may also impact user experience.
+
+	This study revolves around the limitations of traditional load balancing algorithms, which typically can only react passively and are unable to proactively prevent server performance degradation or even server crashes caused by surges in access volume. Thus, this paper proposes a load balancing algorithm based on Nginx servers, with the main contributions including:
+
+	(1) A study on the prediction of website traffic based on time series, aimed at forecasting the trend of traffic volume changes in advance, and accordingly adjusting server nodes to enhance cluster stability. This paper utilizes the dataset provided by the Kaggle "Web Traffic Time Series Forecasting" competition for analysis and prediction, determining the most suitable prediction model through model comparison, thereby granting the load balancing algorithm the capability to actively predict and adjust.
+
+	(2) The prediction of comprehensive load indicators for server clusters. By selecting indicators that comprehensively reflect the load conditions, continually collecting this data, and employing convolutional neural networks to build a prediction model, the predicted outcomes are used to guide the weight adjustments in load balancing strategies.
+
+	(3) The proposal of an improved strategy for Nginx server load balancing algorithms based on real load conditions, enabling rational distribution of user tasks. Innovatively employing a two-phase method to address the issue of initial data scarcity in neural networks and ensuring stable cluster operation. Additionally, based on the principles of TCP congestion control, the weight of server nodes is adjusted to optimize node load conditions.
 \end{eabstract}
 
-\ekeywords{Nginx, Time Convolutional Network, Load Balancing, Time Series Forecasting Algorithm}
+\ekeywords{Nginx, Time Convolutional Network, Load Balancing, Time Series}
