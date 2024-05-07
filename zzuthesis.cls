@@ -166,8 +166,8 @@
 	\fi}
 \newcommand{\cabstractname}{摘要}
 \newcommand{\eabstractname}{ABSTRACT}
-\def\zzu@ckeywords@separator{；}
-\def\zzu@ekeywords@separator{; }
+\def\zzu@ckeywords@separator{\quad}
+\def\zzu@ekeywords@separator{\quad}
 \newcommand{\zzu@ckeywords@title}{关键词：}
 \newcommand{\zzu@ekeywords@title}{Keywords:\enskip}
 \newcommand{\zzu@denotation@name}{主要符号对照表}
